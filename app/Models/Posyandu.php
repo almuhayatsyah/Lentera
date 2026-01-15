@@ -16,6 +16,8 @@ class Posyandu extends Model
         'kecamatan',
         'kabupaten',
         'alamat',
+        'latitude',
+        'longitude',
         'kader_utama',
         'telepon',
         'catatan',
@@ -24,6 +26,8 @@ class Posyandu extends Model
 
     protected $casts = [
         'aktif' => 'boolean',
+        'latitude' => 'decimal:8',
+        'longitude' => 'decimal:8',
     ];
 
     /**

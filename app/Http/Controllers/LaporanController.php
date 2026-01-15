@@ -106,6 +106,8 @@ class LaporanController extends Controller
                 'nama' => $posyandu->nama,
                 'desa' => $posyandu->desa,
                 'kecamatan' => $posyandu->kecamatan,
+                'latitude' => $posyandu->latitude,
+                'longitude' => $posyandu->longitude,
                 'total_anak' => Anak::where('posyandu_id', $posyandu->id)->aktif()->balita()->count(),
                 'kunjungan_bulan_ini' => Kunjungan::where('posyandu_id', $posyandu->id)
                     ->whereMonth('tanggal_kunjungan', $bulan)

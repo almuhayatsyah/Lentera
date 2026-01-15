@@ -44,6 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/anak/{anak}/riwayat', [AnakController::class, 'riwayat'])->name('anak.riwayat');
 
     // Kunjungan / Visit
+    Route::get('/kunjungan', [KunjunganController::class, 'index'])->name('kunjungan.index');
     Route::get('/kunjungan/wizard', [KunjunganController::class, 'wizard'])->name('kunjungan.wizard');
     Route::get('/kunjungan/wizard/{anak}', [KunjunganController::class, 'wizardWithAnak'])->name('kunjungan.wizard.anak');
     Route::post('/kunjungan/store', [KunjunganController::class, 'store'])->name('kunjungan.store');

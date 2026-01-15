@@ -6,6 +6,7 @@ use App\Models\Anak;
 use App\Models\Kunjungan;
 use App\Models\Pengukuran;
 use App\Models\Pelayanan;
+use App\Models\Posyandu;
 use App\Services\GrowthCalculatorService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -17,6 +18,46 @@ class KunjunganController extends Controller
     public function __construct(GrowthCalculatorService $growthCalculator)
     {
         $this->growthCalculator = $growthCalculator;
+    }
+
+    /**
+     * Display a listing of the resource (Riwayat Kunjungan)
+     */
+    public function index(Request $request)
+    {
+        $query = Kunjungan::with(['anak', 'posyandu', 'pengukuran', 'pelayanan', 'user']);
+
+        // Filter by posyandu for Kader
+        if (auth()->user()->isKader()) {
+            $query->where('posyandu_id', auth()->user()->posyandu_id);
+        }
+
+        // Filter by month
+        if ($request->filled('bulan')) {
+            $bulan = Carbon::parse($request->bulan);
+            $query->whereYear('tanggal_kunjungan', $bulan->year)
+                  ->whereMonth('tanggal_kunjungan', $bulan->month);
+        }
+
+        // Filter by posyandu (for Admin)
+        if ($request->filled('posyandu_id')) {
+            $query->where('posyandu_id', $request->posyandu_id);
+        }
+
+        // Filter by status gizi
+        if ($request->filled('status_gizi')) {
+            $query->whereHas('pengukuran', function($q) use ($request) {
+                $q->where('status_gizi', $request->status_gizi);
+            });
+        }
+
+        $kunjungans = $query->orderByDesc('tanggal_kunjungan')
+            ->paginate(15)
+            ->withQueryString();
+        
+        $posyandus = auth()->user()->isAdmin() ? Posyandu::aktif()->get() : collect();
+
+        return view('kunjungan.index', compact('kunjungans', 'posyandus'));
     }
 
     /**

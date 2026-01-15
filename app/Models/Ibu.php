@@ -81,6 +81,17 @@ class Ibu extends Model
     }
 
     /**
+     * Get short address for table display
+     */
+    public function getAlamatSingkatAttribute(): string
+    {
+        if ($this->desa) {
+            return $this->desa . ($this->rt ? " RT {$this->rt}" : '');
+        }
+        return $this->alamat ? \Illuminate\Support\Str::limit($this->alamat, 30) : '-';
+    }
+
+    /**
      * Get number of children
      */
     public function getJumlahAnakAttribute(): int

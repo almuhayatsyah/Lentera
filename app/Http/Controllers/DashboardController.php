@@ -27,10 +27,29 @@ class DashboardController extends Controller
      */
     private function adminDashboard()
     {
-        // Get all posyandus
+        // Get all posyandus with counts
         $posyandus = Posyandu::withCount(['anaks', 'kunjungans' => function ($query) {
             $query->whereMonth('tanggal_kunjungan', now()->month);
         }])->get();
+
+        // Calculate stunting rate for each posyandu
+        $posyandus = $posyandus->map(function ($posyandu) {
+            $totalMeasurements = Pengukuran::whereHas('kunjungan', function ($q) use ($posyandu) {
+                $q->where('posyandu_id', $posyandu->id)
+                  ->whereMonth('tanggal_kunjungan', now()->month);
+            })->count();
+            
+            $stuntingCases = Pengukuran::whereHas('kunjungan', function ($q) use ($posyandu) {
+                $q->where('posyandu_id', $posyandu->id)
+                  ->whereMonth('tanggal_kunjungan', now()->month);
+            })->stunting()->count();
+            
+            $posyandu->stunting_rate = $totalMeasurements > 0 
+                ? round(($stuntingCases / $totalMeasurements) * 100, 1) 
+                : 0;
+                
+            return $posyandu;
+        });
 
         // Total statistics
         $totalAnak = Anak::aktif()->balita()->count();
@@ -49,7 +68,7 @@ class DashboardController extends Controller
         $statusDistribution = $this->getStatusDistribution();
 
         // Recent visits
-        $recentKunjungans = Kunjungan::with(['anak', 'user', 'pengukuran'])
+        $recentKunjungans = Kunjungan::with(['anak', 'user', 'pengukuran', 'posyandu'])
             ->latest('tanggal_kunjungan')
             ->take(10)
             ->get();

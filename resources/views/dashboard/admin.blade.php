@@ -130,17 +130,34 @@
             </div>
         </div>
 
-        <!-- Posyandu Summary -->
+        <!-- Map Sebaran Posyandu -->
         <div class="col-12 col-lg-6 mb-4">
             <div class="card h-100">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">
+                        <i class="bx bx-map me-2"></i>
+                        Peta Sebaran Posyandu
+                    </h5>
+                    <a href="{{ route('laporan.sebaran') }}" class="btn btn-sm btn-outline-primary">
+                        Detail
+                    </a>
+                </div>
+                <div class="card-body p-0">
+                    <div id="dashboardMap" style="height: 300px; border-radius: 0 0 8px 8px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Posyandu Table Row -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
                 <div class="card-header d-flex align-items-center justify-content-between">
                     <h5 class="mb-0">
                         <i class="bx bx-building-house me-2"></i>
                         Ringkasan Per Posyandu
                     </h5>
-                    <a href="{{ route('laporan.sebaran') }}" class="btn btn-sm btn-outline-primary">
-                        Lihat Peta
-                    </a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -150,6 +167,7 @@
                                     <th>Posyandu</th>
                                     <th class="text-center">Anak</th>
                                     <th class="text-center">Kunjungan</th>
+                                    <th class="text-center">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -164,6 +182,15 @@
                                         </td>
                                         <td class="text-center">{{ $posyandu->anaks_count }}</td>
                                         <td class="text-center">{{ $posyandu->kunjungans_count }}</td>
+                                        <td class="text-center">
+                                            @php
+                                                $stuntingRate = $posyandu->stunting_rate ?? 0;
+                                                $color = $stuntingRate > 20 ? 'danger' : ($stuntingRate > 10 ? 'warning' : 'success');
+                                            @endphp
+                                            <span class="badge bg-{{ $color }}">
+                                                {{ $stuntingRate }}% Stunting
+                                            </span>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -172,7 +199,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
     <!-- Recent Visits -->
     <div class="card">
@@ -268,4 +294,68 @@
             </a>
         </div>
     </div>
+
+    @push('styles')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <style>
+        #dashboardMap { z-index: 1; }
+    </style>
+    @endpush
+
+    @push('scripts')
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Build posyandus array from PHP
+            const posyandus = [
+                @foreach($posyandus as $p)
+                {
+                    id: {{ $p->id }},
+                    nama: "{{ addslashes($p->nama) }}",
+                    desa: "{{ addslashes($p->desa ?? '') }}",
+                    latitude: {{ $p->latitude ?? 'null' }},
+                    longitude: {{ $p->longitude ?? 'null' }},
+                    anaks_count: {{ $p->anaks_count ?? 0 }},
+                    stunting_rate: {{ $p->stunting_rate ?? 0 }}
+                },
+                @endforeach
+            ];
+            
+            let validPosyandus = posyandus.filter(p => p.latitude && p.longitude);
+            let centerLat = -6.9175, centerLng = 107.6200;
+            
+            if (validPosyandus.length > 0) {
+                centerLat = validPosyandus.reduce((sum, p) => sum + parseFloat(p.latitude), 0) / validPosyandus.length;
+                centerLng = validPosyandus.reduce((sum, p) => sum + parseFloat(p.longitude), 0) / validPosyandus.length;
+            }
+            
+            const map = L.map('dashboardMap').setView([centerLat, centerLng], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OSM' }).addTo(map);
+            
+            const getMarkerIcon = (rate) => {
+                let color = rate > 20 ? '#ea5455' : (rate > 10 ? '#ff9f43' : '#28c76f');
+                return L.divIcon({
+                    className: 'custom-marker',
+                    html: '<div style="background:' + color + ';width:24px;height:24px;border-radius:50%;border:2px solid white;box-shadow:0 2px 5px rgba(0,0,0,0.3);"></div>',
+                    iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -12]
+                });
+            };
+            
+            posyandus.forEach(p => {
+                if (p.latitude && p.longitude) {
+                    L.marker([parseFloat(p.latitude), parseFloat(p.longitude)], { icon: getMarkerIcon(p.stunting_rate) })
+                        .addTo(map)
+                        .bindPopup('<strong>' + p.nama + '</strong><br><small>' + p.desa + '</small><br><small>Balita: ' + p.anaks_count + ' | Stunting: ' + p.stunting_rate + '%</small>');
+                }
+            });
+            
+            if (validPosyandus.length > 0) {
+                const bounds = L.latLngBounds(validPosyandus.map(p => [parseFloat(p.latitude), parseFloat(p.longitude)]));
+                map.fitBounds(bounds, { padding: [30, 30] });
+            }
+        });
+    </script>
+    @endpush
 </x-admin-layout>

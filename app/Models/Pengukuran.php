@@ -146,6 +146,29 @@ class Pengukuran extends Model
     }
 
     /**
+     * BMI alias for imt
+     */
+    public function getBmiAttribute(): ?float
+    {
+        return $this->imt;
+    }
+
+    /**
+     * Get status wasting badge color
+     */
+    public function getStatusWastingColorAttribute(): string
+    {
+        $colors = [
+            'gizi_buruk_akut' => 'danger',
+            'gizi_kurang_akut' => 'warning',
+            'normal' => 'success',
+            'berisiko_lebih' => 'info',
+            'obesitas' => 'danger',
+        ];
+        return $colors[$this->status_wasting] ?? 'secondary';
+    }
+
+    /**
      * Check if stunting (short or very short)
      */
     public function getIsStuntingAttribute(): bool

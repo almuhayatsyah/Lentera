@@ -190,8 +190,8 @@
                         </a>
                     </li>
 
-                    <li class="menu-item {{ request()->routeIs('kunjungan.history') ? 'active' : '' }}">
-                        <a href="{{ route('kunjungan.history') }}" class="menu-link">
+                    <li class="menu-item {{ request()->routeIs('kunjungan.index') || request()->routeIs('kunjungan.show') ? 'active' : '' }}">
+                        <a href="{{ route('kunjungan.index') }}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-history"></i>
                             <div>Riwayat Kunjungan</div>
                         </a>
