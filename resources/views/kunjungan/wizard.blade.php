@@ -40,10 +40,11 @@
                         
                         <!-- Step 1: Identitas Anak -->
                         <div x-show="currentStep === 0" x-transition>
-                            <h4 class="mb-4 text-center">
+                            <h4 class="mb-1 text-center">
                                 <i class="bx bx-user-circle text-primary"></i>
-                                Pilih Anak
+                                Meja 1: Pendaftaran
                             </h4>
+                            <p class="text-center text-muted mb-4">Pilih data anak yang akan dikunjungi</p>
 
                             <div class="mb-3">
                                 <label class="form-label">Tanggal Kunjungan</label>
@@ -86,10 +87,11 @@
 
                         <!-- Step 2: Antropometri -->
                         <div x-show="currentStep === 1" x-transition>
-                            <h4 class="mb-4 text-center">
+                            <h4 class="mb-1 text-center">
                                 <i class="bx bx-ruler text-primary"></i>
-                                Pengukuran Antropometri
+                                Meja 2: Penimbangan
                             </h4>
+                            <p class="text-center text-muted mb-4">Pengukuran berat badan, tinggi badan, dan lingkar kepala</p>
 
                             <div class="row">
                                 <div class="col-6">
@@ -130,10 +132,11 @@
 
                         <!-- Step 3: Analisa (Real-time calculation) -->
                         <div x-show="currentStep === 2" x-transition>
-                            <h4 class="mb-4 text-center">
+                            <h4 class="mb-1 text-center">
                                 <i class="bx bx-analyse text-primary"></i>
-                                Hasil Analisa
+                                Meja 3: Pencatatan
                             </h4>
+                            <p class="text-center text-muted mb-4">Hasil analisa status gizi dan stunting</p>
 
                             <div x-show="isCalculating" class="text-center py-5">
                                 <div class="spinner-border text-primary" role="status">
@@ -219,10 +222,11 @@
 
                         <!-- Step 4: Intervensi -->
                         <div x-show="currentStep === 3" x-transition>
-                            <h4 class="mb-4 text-center">
+                            <h4 class="mb-1 text-center">
                                 <i class="bx bx-capsule text-primary"></i>
-                                Pelayanan & Intervensi
+                                Meja 4: Penyuluhan & Pelayanan
                             </h4>
+                            <p class="text-center text-muted mb-4">Pemberian Vitamin A, PMT, Imunisasi, dan Konseling</p>
 
                             <div class="row">
                                 <!-- Vitamin A -->
@@ -338,10 +342,11 @@
 
                         <!-- Step 5: Validasi & Simpan -->
                         <div x-show="currentStep === 4" x-transition>
-                            <h4 class="mb-4 text-center">
+                            <h4 class="mb-1 text-center">
                                 <i class="bx bx-check-shield text-primary"></i>
-                                Validasi & Simpan
+                                Meja 5: Validasi & Simpan
                             </h4>
+                            <p class="text-center text-muted mb-4">Periksa kembali data sebelum menyimpan</p>
 
                             <div class="card bg-light mb-4">
                                 <div class="card-body">
@@ -430,7 +435,7 @@
         function wizardForm() {
             return {
                 currentStep: 0,
-                steps: ['Identitas', 'Pengukuran', 'Analisa', 'Intervensi', 'Validasi'],
+                steps: ['Meja 1', 'Meja 2', 'Meja 3', 'Meja 4', 'Meja 5'],
                 isCalculating: false,
                 isSubmitting: false,
                 analysisResult: null,

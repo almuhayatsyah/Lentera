@@ -75,6 +75,7 @@ class AnakController extends Controller
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'nik' => 'nullable|string|size:16|unique:anaks,nik',
+            'foto' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
             'jenis_kelamin' => 'required|in:L,P',
             'tanggal_lahir' => 'required|date|before:today',
             'tempat_lahir' => 'nullable|string|max:255',
@@ -87,6 +88,11 @@ class AnakController extends Controller
             'golongan_darah' => 'nullable|string|max:3',
             'catatan' => 'nullable|string',
         ]);
+
+        // Handle foto upload
+        if ($request->hasFile('foto')) {
+            $validated['foto'] = $request->file('foto')->store('anak-photos', 'public');
+        }
 
         // Kader can only add to their posyandu
         if (auth()->user()->isKader()) {
@@ -153,6 +159,7 @@ class AnakController extends Controller
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'nik' => 'nullable|string|size:16|unique:anaks,nik,' . $anak->id,
+            'foto' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
             'jenis_kelamin' => 'required|in:L,P',
             'tanggal_lahir' => 'required|date|before:today',
             'tempat_lahir' => 'nullable|string|max:255',
@@ -166,6 +173,15 @@ class AnakController extends Controller
             'catatan' => 'nullable|string',
             'aktif' => 'boolean',
         ]);
+
+        // Handle foto upload
+        if ($request->hasFile('foto')) {
+            // Delete old photo if exists
+            if ($anak->foto && \Storage::disk('public')->exists($anak->foto)) {
+                \Storage::disk('public')->delete($anak->foto);
+            }
+            $validated['foto'] = $request->file('foto')->store('anak-photos', 'public');
+        }
 
         $validated['aktif'] = $request->boolean('aktif', true);
 

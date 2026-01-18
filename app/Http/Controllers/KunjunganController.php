@@ -39,6 +39,11 @@ class KunjunganController extends Controller
                   ->whereMonth('tanggal_kunjungan', $bulan->month);
         }
 
+        // Filter by specific date (from calendar)
+        if ($request->filled('tanggal')) {
+            $query->whereDate('tanggal_kunjungan', $request->tanggal);
+        }
+
         // Filter by posyandu (for Admin)
         if ($request->filled('posyandu_id')) {
             $query->where('posyandu_id', $request->posyandu_id);
@@ -277,7 +282,7 @@ class KunjunganController extends Controller
      */
     public function history(Request $request)
     {
-        $query = Kunjungan::with(['anak', 'pengukuran', 'user']);
+        $query = Kunjungan::with(['anak', 'posyandu', 'pengukuran', 'pelayanan', 'user']);
 
         // Filter by posyandu for Kader
         if (auth()->user()->isKader()) {
@@ -300,8 +305,10 @@ class KunjunganController extends Controller
         $kunjungans = $query->orderByDesc('tanggal_kunjungan')
             ->paginate(15)
             ->withQueryString();
+        
+        $posyandus = auth()->user()->isAdmin() ? Posyandu::aktif()->get() : collect();
 
-        return view('kunjungan.history', compact('kunjungans'));
+        return view('kunjungan.index', compact('kunjungans', 'posyandus'));
     }
 
     /**

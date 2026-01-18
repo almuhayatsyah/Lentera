@@ -1,5 +1,9 @@
 <x-admin-layout>
     <x-slot name="title">Data Ibu</x-slot>
+    <x-slot name="pageTitle">Data Ibu</x-slot>
+    <x-slot name="breadcrumbItems">
+        <li class="breadcrumb-item active">Data Ibu</li>
+    </x-slot>
 
     <div class="card">
         <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-2">

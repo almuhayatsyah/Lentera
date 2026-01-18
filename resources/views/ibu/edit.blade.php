@@ -19,7 +19,8 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">NIK <span class="text-danger">*</span></label>
                                 <input type="text" name="nik" class="form-control @error('nik') is-invalid @enderror" 
-                                       value="{{ old('nik', $ibu->nik) }}" maxlength="16" pattern="[0-9]{16}" required>
+                                       value="{{ old('nik', $ibu->nik) }}" maxlength="16" pattern="[0-9]{16}"
+                                       inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
                                 @error('nik')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror

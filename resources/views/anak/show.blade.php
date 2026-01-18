@@ -7,10 +7,15 @@
             <div class="card">
                 <div class="card-body text-center pt-4">
                     <div class="avatar avatar-xl mb-3">
-                        <span class="avatar-initial rounded-circle bg-{{ $anak->jenis_kelamin == 'L' ? 'info' : 'pink' }}" 
-                              style="width: 80px; height: 80px; font-size: 2rem;">
-                            {{ strtoupper(substr($anak->nama, 0, 2)) }}
-                        </span>
+                        @if($anak->foto)
+                            <img src="{{ asset('storage/'.$anak->foto) }}" alt="{{ $anak->nama }}" 
+                                 class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover; border: 3px solid #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+                        @else
+                            <span class="avatar-initial rounded-circle bg-{{ $anak->jenis_kelamin == 'L' ? 'info' : 'pink' }}" 
+                                  style="width: 80px; height: 80px; font-size: 2rem;">
+                                {{ strtoupper(substr($anak->nama, 0, 2)) }}
+                            </span>
+                        @endif
                     </div>
                     <h4 class="mb-1">{{ $anak->nama }}</h4>
                     <p class="text-muted mb-2">{{ $anak->jenis_kelamin_text }} • {{ $anak->usia_format }}</p>
@@ -150,6 +155,48 @@
             </div>
             @endif
 
+            <!-- Growth Chart -->
+            @if($anak->pengukurans->count() > 1)
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="bx bx-line-chart me-2"></i>
+                        Grafik Pertumbuhan
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#chartBB" type="button">Berat Badan</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#chartTB" type="button">Tinggi Badan</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#chartAll" type="button">Semua</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content pt-3">
+                        <div class="tab-pane fade show active" id="chartBB">
+                            <div style="height: 250px;">
+                                <canvas id="weightChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="chartTB">
+                            <div style="height: 250px;">
+                                <canvas id="heightChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="chartAll">
+                            <div style="height: 250px;">
+                                <canvas id="combinedChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
+
             <!-- Visit History -->
             <div class="card">
                 <div class="card-header d-flex align-items-center justify-content-between">
@@ -213,4 +260,181 @@
             </div>
         </div>
     </div>
+
+    @if($anak->pengukurans->count() > 1)
+    @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    @php
+        $growthData = $anak->pengukurans->sortBy('created_at')->values()->map(function($p) {
+            return [
+                'date' => $p->kunjungan?->tanggal_kunjungan?->format('d/m/Y') ?? $p->created_at->format('d/m/Y'),
+                'age' => $p->kunjungan?->usia_bulan ?? null,
+                'weight' => $p->berat_badan,
+                'height' => $p->tinggi_badan,
+                'head' => $p->lingkar_kepala
+            ];
+        });
+    @endphp
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Prepare growth data from measurements
+            const measurements = @json($growthData);
+
+            const labels = measurements.map(m => m.age ? m.age + ' bln' : m.date);
+            const weights = measurements.map(m => m.weight);
+            const heights = measurements.map(m => m.height);
+            const heads = measurements.map(m => m.head);
+
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { usePointStyle: true, padding: 10 }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        padding: 10
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Usia / Kunjungan' },
+                        grid: { display: false }
+                    },
+                    y: {
+                        beginAtZero: false,
+                        grid: { color: 'rgba(0,0,0,0.05)' }
+                    }
+                }
+            };
+
+            // Weight Chart
+            new Chart(document.getElementById('weightChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Berat Badan (kg)',
+                        data: weights,
+                        borderColor: '#1e5799',
+                        backgroundColor: 'rgba(30, 87, 153, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3,
+                        pointBackgroundColor: '#1e5799',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    ...chartOptions,
+                    scales: {
+                        ...chartOptions.scales,
+                        y: { ...chartOptions.scales.y, title: { display: true, text: 'Berat (kg)' } }
+                    }
+                }
+            });
+
+            // Height Chart
+            new Chart(document.getElementById('heightChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Tinggi Badan (cm)',
+                        data: heights,
+                        borderColor: '#52b788',
+                        backgroundColor: 'rgba(82, 183, 136, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3,
+                        pointBackgroundColor: '#52b788',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    ...chartOptions,
+                    scales: {
+                        ...chartOptions.scales,
+                        y: { ...chartOptions.scales.y, title: { display: true, text: 'Tinggi (cm)' } }
+                    }
+                }
+            });
+
+            // Combined Chart
+            new Chart(document.getElementById('combinedChart'), {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Berat (kg)',
+                            data: weights,
+                            borderColor: '#1e5799',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            pointRadius: 4,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Tinggi (cm)',
+                            data: heights,
+                            borderColor: '#52b788',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            tension: 0.3,
+                            pointRadius: 4,
+                            yAxisID: 'y1'
+                        },
+                        {
+                            label: 'Lingkar Kepala (cm)',
+                            data: heads,
+                            borderColor: '#f9a825',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            tension: 0.3,
+                            pointRadius: 4,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { position: 'top', labels: { usePointStyle: true } }
+                    },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: { display: true, text: 'Berat (kg)' },
+                            grid: { color: 'rgba(0,0,0,0.05)' }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: { display: true, text: 'Tinggi/LK (cm)' },
+                            grid: { drawOnChartArea: false }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    @endpush
+    @endif
 </x-admin-layout>

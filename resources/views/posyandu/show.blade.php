@@ -1,5 +1,11 @@
 <x-admin-layout>
     <x-slot name="title">Detail Posyandu</x-slot>
+    <x-slot name="pageTitle">{{ $posyandu->nama }}</x-slot>
+    <x-slot name="backUrl">{{ route('posyandu.index') }}</x-slot>
+    <x-slot name="breadcrumbItems">
+        <li class="breadcrumb-item"><a href="{{ route('posyandu.index') }}">Posyandu</a></li>
+        <li class="breadcrumb-item active">Detail</li>
+    </x-slot>
 
     <div class="row">
         <div class="col-12 col-lg-4 mb-4">

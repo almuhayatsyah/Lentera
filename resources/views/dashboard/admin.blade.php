@@ -1,19 +1,67 @@
 <x-admin-layout>
     <x-slot name="title">Dashboard Admin</x-slot>
 
+    <!-- Welcome Banner -->
+    <div class="card bg-primary mb-4">
+        <div class="card-body p-3 p-md-4">
+            <div class="row align-items-center">
+                <div class="col-8 col-md-8">
+                    <div class="d-flex align-items-center">
+                        @if(auth()->user()->photo_url)
+                            <a href="{{ route('profile.edit') }}" title="Lihat Profil" class="flex-shrink-0">
+                                <img src="{{ auth()->user()->photo_url }}" alt="{{ auth()->user()->name }}" 
+                                     class="rounded-circle me-2 me-md-3" style="width: 50px; height: 50px; object-fit: cover; border: 2px solid rgba(255,255,255,0.3); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                            </a>
+                        @else
+                            <a href="{{ route('profile.edit') }}" class="rounded-circle bg-white bg-opacity-25 d-flex align-items-center justify-content-center me-2 me-md-3 text-decoration-none flex-shrink-0" 
+                                 style="width: 50px; height: 50px; transition: transform 0.2s;" title="Lihat Profil" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                                <span class="text-white fs-5 fw-bold">{{ strtoupper(substr(auth()->user()->name, 0, 2)) }}</span>
+                            </a>
+                        @endif
+                        <div class="text-white overflow-hidden">
+                            <p class="mb-0 opacity-75 small">
+                                @php
+                                    $hour = now()->hour;
+                                    $greeting = $hour < 12 ? 'Selamat Pagi' : ($hour < 15 ? 'Selamat Siang' : ($hour < 18 ? 'Selamat Sore' : 'Selamat Malam'));
+                                @endphp
+                                {{ $greeting }},
+                            </p>
+                            <h5 class="mb-1 text-white fw-bold text-truncate" style="font-size: clamp(0.9rem, 3vw, 1.25rem);">{{ auth()->user()->name }}</h5>
+                            <div class="d-flex flex-wrap gap-1 align-items-center">
+                                <span class="badge bg-light text-primary" style="font-size: 0.65rem;">
+                                    {{ auth()->user()->role_label }}
+                                </span>
+                                <span class="badge bg-warning text-dark d-flex align-items-center" style="font-size: 0.65rem;">
+                                    <img src="{{ asset('assets/img/favicon/logo.png') }}" alt="" height="12" class="me-1">
+                                    v1.0.0
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 col-md-4 text-end">
+                    <a href="{{ route('kunjungan.wizard') }}" class="btn btn-light btn-sm btn-md-lg">
+                        <i class="bx bx-plus-circle"></i>
+                        <span class="d-none d-md-inline ms-1">Kunjungan</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Summary Stats -->
     <div class="row mb-4">
         <div class="col-6 col-lg-3 mb-3">
             <div class="card card-hover h-100">
-                <div class="card-body">
+                <div class="card-body p-3 p-md-4">
                     <div class="d-flex align-items-center">
-                        <div class="avatar flex-shrink-0 me-3">
+                        <div class="avatar flex-shrink-0 me-2 me-md-3">
                             <span class="avatar-initial rounded bg-label-primary">
                                 <i class="bx bx-child"></i>
                             </span>
                         </div>
-                        <div>
-                            <span class="text-muted d-block mb-1">Total Balita</span>
+                        <div class="overflow-hidden">
+                            <span class="text-muted d-block mb-1 small text-truncate">Total Balita</span>
                             <h4 class="mb-0">{{ $totalAnak }}</h4>
                         </div>
                     </div>
@@ -22,15 +70,15 @@
         </div>
         <div class="col-6 col-lg-3 mb-3">
             <div class="card card-hover h-100">
-                <div class="card-body">
+                <div class="card-body p-3 p-md-4">
                     <div class="d-flex align-items-center">
-                        <div class="avatar flex-shrink-0 me-3">
+                        <div class="avatar flex-shrink-0 me-2 me-md-3">
                             <span class="avatar-initial rounded bg-label-success">
                                 <i class="bx bx-calendar-check"></i>
                             </span>
                         </div>
-                        <div>
-                            <span class="text-muted d-block mb-1">Kunjungan Bulan Ini</span>
+                        <div class="overflow-hidden">
+                            <span class="text-muted d-block mb-1 small text-truncate">Kunjungan</span>
                             <h4 class="mb-0">{{ $totalKunjunganBulanIni }}</h4>
                         </div>
                     </div>
@@ -39,15 +87,15 @@
         </div>
         <div class="col-6 col-lg-3 mb-3">
             <div class="card card-hover h-100 border-warning">
-                <div class="card-body">
+                <div class="card-body p-3 p-md-4">
                     <div class="d-flex align-items-center">
-                        <div class="avatar flex-shrink-0 me-3">
+                        <div class="avatar flex-shrink-0 me-2 me-md-3">
                             <span class="avatar-initial rounded bg-label-warning">
                                 <i class="bx bx-trending-down"></i>
                             </span>
                         </div>
-                        <div>
-                            <span class="text-muted d-block mb-1">Kasus Stunting</span>
+                        <div class="overflow-hidden">
+                            <span class="text-muted d-block mb-1 small text-truncate">Stunting</span>
                             <h4 class="mb-0 text-warning">{{ $stuntingCount }}</h4>
                         </div>
                     </div>
@@ -56,15 +104,15 @@
         </div>
         <div class="col-6 col-lg-3 mb-3">
             <div class="card card-hover h-100 border-danger">
-                <div class="card-body">
+                <div class="card-body p-3 p-md-4">
                     <div class="d-flex align-items-center">
-                        <div class="avatar flex-shrink-0 me-3">
+                        <div class="avatar flex-shrink-0 me-2 me-md-3">
                             <span class="avatar-initial rounded bg-label-danger">
                                 <i class="bx bx-error-circle"></i>
                             </span>
                         </div>
-                        <div>
-                            <span class="text-muted d-block mb-1">Gizi Kurang/Buruk</span>
+                        <div class="overflow-hidden">
+                            <span class="text-muted d-block mb-1 small text-truncate">Gizi Buruk</span>
                             <h4 class="mb-0 text-danger">{{ $underweightCount }}</h4>
                         </div>
                     </div>
@@ -149,6 +197,25 @@
         </div>
     </div>
 
+    <!-- Stunting Trend Chart Row -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bx bx-line-chart me-2"></i>
+                        Tren Stunting & Gizi Kurang (6 Bulan Terakhir)
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div style="height: 300px;">
+                        <canvas id="stuntingTrendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Posyandu Table Row -->
     <div class="row mb-4">
         <div class="col-12">
@@ -199,32 +266,35 @@
                 </div>
             </div>
         </div>
+    </div>
 
     <!-- Recent Visits -->
-    <div class="card">
-        <div class="card-header d-flex align-items-center justify-content-between">
-            <h5 class="mb-0">
-                <i class="bx bx-history me-2"></i>
-                Kunjungan Terbaru
-            </h5>
-            <a href="{{ route('kunjungan.history') }}" class="btn btn-sm btn-outline-primary">
-                Lihat Semua
-            </a>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Tanggal</th>
-                            <th>Nama Anak</th>
-                            <th>Posyandu</th>
-                            <th>BB/TB</th>
-                            <th>Status</th>
-                            <th>Petugas</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">
+                        <i class="bx bx-history me-2"></i>
+                        Kunjungan Terbaru
+                    </h5>
+                    <a href="{{ route('kunjungan.history') }}" class="btn btn-sm btn-outline-primary">
+                        Lihat Semua
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Nama Anak</th>
+                                    <th>Posyandu</th>
+                                    <th>BB/TB</th>
+                                    <th>Status</th>
+                                    <th>Petugas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                         @forelse($recentKunjungans as $kunjungan)
                             <tr>
                                 <td>{{ $kunjungan->tanggal_format }}</td>
@@ -261,37 +331,49 @@
                                 </td>
                             </tr>
                         @endforelse
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Quick Actions -->
     <div class="row mt-4">
-        <div class="col-12 col-md-4 mb-3">
-            <a href="{{ route('laporan.skdn') }}" class="card card-hover text-decoration-none">
-                <div class="card-body text-center py-4">
-                    <i class="bx bx-file text-primary bx-lg mb-2"></i>
-                    <h6 class="mb-0">Laporan SKDN</h6>
-                </div>
-            </a>
-        </div>
-        <div class="col-12 col-md-4 mb-3">
-            <a href="{{ route('users.index') }}" class="card card-hover text-decoration-none">
-                <div class="card-body text-center py-4">
-                    <i class="bx bx-user-circle text-info bx-lg mb-2"></i>
-                    <h6 class="mb-0">Manajemen Pengguna</h6>
-                </div>
-            </a>
-        </div>
-        <div class="col-12 col-md-4 mb-3">
-            <a href="{{ route('posyandu.index') }}" class="card card-hover text-decoration-none">
-                <div class="card-body text-center py-4">
-                    <i class="bx bx-building-house text-success bx-lg mb-2"></i>
-                    <h6 class="mb-0">Manajemen Posyandu</h6>
-                </div>
-            </a>
+        <div class="col-12">
+            <div class="d-flex flex-nowrap gap-2 overflow-auto pb-2">
+                <a href="{{ route('laporan.skdn') }}" class="card card-hover text-decoration-none flex-shrink-0" style="min-width: 100px;">
+                    <div class="card-body text-center p-2 p-md-3">
+                        <i class="bx bx-file text-primary fs-4 mb-1"></i>
+                        <p class="mb-0 small text-truncate">SKDN</p>
+                    </div>
+                </a>
+                <a href="{{ route('users.index') }}" class="card card-hover text-decoration-none flex-shrink-0" style="min-width: 100px;">
+                    <div class="card-body text-center p-2 p-md-3">
+                        <i class="bx bx-user-circle text-info fs-4 mb-1"></i>
+                        <p class="mb-0 small text-truncate">Pengguna</p>
+                    </div>
+                </a>
+                <a href="{{ route('posyandu.index') }}" class="card card-hover text-decoration-none flex-shrink-0" style="min-width: 100px;">
+                    <div class="card-body text-center p-2 p-md-3">
+                        <i class="bx bx-building-house text-success fs-4 mb-1"></i>
+                        <p class="mb-0 small text-truncate">Posyandu</p>
+                    </div>
+                </a>
+                <a href="{{ route('anak.index') }}" class="card card-hover text-decoration-none flex-shrink-0" style="min-width: 100px;">
+                    <div class="card-body text-center p-2 p-md-3">
+                        <i class="bx bx-child text-warning fs-4 mb-1"></i>
+                        <p class="mb-0 small text-truncate">Data Anak</p>
+                    </div>
+                </a>
+                <a href="{{ route('ibu.index') }}" class="card card-hover text-decoration-none flex-shrink-0" style="min-width: 100px;">
+                    <div class="card-body text-center p-2 p-md-3">
+                        <i class="bx bx-female text-danger fs-4 mb-1"></i>
+                        <p class="mb-0 small text-truncate">Data Ibu</p>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
 
@@ -306,8 +388,128 @@
     @push('scripts')
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // ========== Stunting Trend Chart ==========
+            const stuntingTrendData = @json($stuntingTrend);
+            
+            const ctx = document.getElementById('stuntingTrendChart');
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: stuntingTrendData.map(d => d.label),
+                        datasets: [
+                            {
+                                label: 'Stunting (%)',
+                                data: stuntingTrendData.map(d => d.stunting_rate),
+                                borderColor: '#f9a825',
+                                backgroundColor: 'rgba(249, 168, 37, 0.1)',
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.4,
+                                pointBackgroundColor: '#f9a825',
+                                pointBorderColor: '#fff',
+                                pointBorderWidth: 2,
+                                pointRadius: 5,
+                                pointHoverRadius: 7
+                            },
+                            {
+                                label: 'Gizi Kurang/Buruk (%)',
+                                data: stuntingTrendData.map(d => d.gizi_buruk_rate),
+                                borderColor: '#e63946',
+                                backgroundColor: 'rgba(230, 57, 70, 0.1)',
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.4,
+                                pointBackgroundColor: '#e63946',
+                                pointBorderColor: '#fff',
+                                pointBorderWidth: 2,
+                                pointRadius: 5,
+                                pointHoverRadius: 7
+                            },
+                            {
+                                label: 'Total Kunjungan',
+                                data: stuntingTrendData.map(d => d.total),
+                                borderColor: '#1e5799',
+                                backgroundColor: 'transparent',
+                                borderWidth: 2,
+                                borderDash: [5, 5],
+                                fill: false,
+                                tension: 0.4,
+                                pointRadius: 3,
+                                yAxisID: 'y1'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    padding: 15
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0,0,0,0.8)',
+                                padding: 12,
+                                callbacks: {
+                                    label: function(context) {
+                                        if (context.dataset.yAxisID === 'y1') {
+                                            return context.dataset.label + ': ' + context.parsed.y + ' kunjungan';
+                                        }
+                                        return context.dataset.label + ': ' + context.parsed.y + '%';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                beginAtZero: true,
+                                max: 100,
+                                title: {
+                                    display: true,
+                                    text: 'Persentase (%)'
+                                },
+                                grid: {
+                                    color: 'rgba(0,0,0,0.05)'
+                                }
+                            },
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Jumlah Kunjungan'
+                                },
+                                grid: {
+                                    drawOnChartArea: false
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // ========== Map Section ==========
             // Build posyandus array from PHP
             const posyandus = [
                 @foreach($posyandus as $p)

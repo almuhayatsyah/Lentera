@@ -1,5 +1,11 @@
 <x-admin-layout>
     <x-slot name="title">Tambah Data Anak</x-slot>
+    <x-slot name="pageTitle">Tambah Data Anak Baru</x-slot>
+    <x-slot name="backUrl">{{ route('anak.index') }}</x-slot>
+    <x-slot name="breadcrumbItems">
+        <li class="breadcrumb-item"><a href="{{ route('anak.index') }}">Data Anak</a></li>
+        <li class="breadcrumb-item active">Tambah</li>
+    </x-slot>
 
     <div class="row justify-content-center">
         <div class="col-12 col-lg-8">
@@ -11,8 +17,30 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('anak.store') }}" method="POST">
+                    <form action="{{ route('anak.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
+
+                        <!-- Foto Upload -->
+                        <div class="mb-4 text-center">
+                            <label class="form-label d-block">Foto Anak (Opsional)</label>
+                            <div class="position-relative d-inline-block">
+                                <img id="fotoPreview" src="{{ asset('assets/img/avatars/child-placeholder.png') }}" 
+                                     class="rounded-circle border" style="width: 120px; height: 120px; object-fit: cover;"
+                                     onerror="this.src='https://ui-avatars.com/api/?name=Foto&background=random&size=120'">
+                                <label for="foto" class="btn btn-sm btn-primary rounded-circle position-absolute" 
+                                       style="bottom: 5px; right: 5px; width: 32px; height: 32px; padding: 0; line-height: 32px;">
+                                    <i class="bx bx-camera"></i>
+                                </label>
+                                <input type="file" name="foto" id="foto" class="d-none" accept="image/jpeg,image/jpg,image/png"
+                                       onchange="previewImage(this)">
+                            </div>
+                            <small class="text-muted d-block mt-1">Max 2MB (JPG, PNG)</small>
+                            @error('foto')
+                                <div class="text-danger small">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <hr>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -26,7 +54,8 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">NIK Anak</label>
                                 <input type="text" name="nik" class="form-control @error('nik') is-invalid @enderror" 
-                                       value="{{ old('nik') }}" maxlength="16" pattern="[0-9]{16}" 
+                                       value="{{ old('nik') }}" maxlength="16" pattern="[0-9]{16}"
+                                       inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                        placeholder="16 digit (opsional)">
                                 @error('nik')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -155,4 +184,18 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('fotoPreview').src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+    @endpush
 </x-admin-layout>

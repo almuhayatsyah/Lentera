@@ -1,5 +1,9 @@
 <x-admin-layout>
     <x-slot name="title">Data Posyandu</x-slot>
+    <x-slot name="pageTitle">Data Posyandu</x-slot>
+    <x-slot name="breadcrumbItems">
+        <li class="breadcrumb-item active">Posyandu</li>
+    </x-slot>
 
     <div class="card">
         <div class="card-header d-flex align-items-center justify-content-between">
@@ -12,6 +16,25 @@
             </a>
         </div>
         <div class="card-body">
+            <!-- Search Form -->
+            <form action="{{ route('posyandu.index') }}" method="GET" class="mb-3">
+                <div class="row g-2">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bx bx-search"></i></span>
+                            <input type="text" name="search" class="form-control" 
+                                   placeholder="Cari nama, desa, kecamatan..." 
+                                   value="{{ request('search') }}">
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Cari</button>
+                        @if(request('search'))
+                            <a href="{{ route('posyandu.index') }}" class="btn btn-outline-secondary">Reset</a>
+                        @endif
+                    </div>
+                </div>
+            </form>
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>

@@ -192,7 +192,7 @@
     </div>
 
     <!-- All Children List (Card View for Mobile) -->
-    <div class="card">
+    <div class="card mb-4">
         <div class="card-header d-flex align-items-center justify-content-between">
             <h5 class="mb-0">
                 <i class="bx bx-list-ul me-2"></i>

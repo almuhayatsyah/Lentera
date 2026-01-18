@@ -67,6 +67,9 @@ class DashboardController extends Controller
         // Status distribution this month
         $statusDistribution = $this->getStatusDistribution();
 
+        // Stunting trend for last 6 months
+        $stuntingTrend = $this->getStuntingTrend();
+
         // Recent visits
         $recentKunjungans = Kunjungan::with(['anak', 'user', 'pengukuran', 'posyandu'])
             ->latest('tanggal_kunjungan')
@@ -80,6 +83,7 @@ class DashboardController extends Controller
             'stuntingCount',
             'underweightCount',
             'statusDistribution',
+            'stuntingTrend',
             'recentKunjungans'
         ));
     }
@@ -178,5 +182,40 @@ class DashboardController extends Controller
             'stunting' => $pengukurans->whereIn('status_stunting', ['pendek', 'sangat_pendek'])->count(),
             'normal' => $pengukurans->where('status_stunting', 'normal')->count(),
         ];
+    }
+
+    /**
+     * Get stunting trend for last 6 months
+     */
+    private function getStuntingTrend(): array
+    {
+        $trend = [];
+        
+        for ($i = 5; $i >= 0; $i--) {
+            $date = now()->subMonths($i);
+            $month = $date->month;
+            $year = $date->year;
+            
+            $pengukurans = Pengukuran::whereHas('kunjungan', function ($q) use ($month, $year) {
+                $q->whereMonth('tanggal_kunjungan', $month)
+                  ->whereYear('tanggal_kunjungan', $year);
+            })->get();
+            
+            $total = $pengukurans->count();
+            $stunting = $pengukurans->whereIn('status_stunting', ['pendek', 'sangat_pendek'])->count();
+            $giziBuruk = $pengukurans->whereIn('status_gizi', ['gizi_kurang', 'gizi_buruk'])->count();
+            
+            $trend[] = [
+                'month' => $date->translatedFormat('M Y'),
+                'label' => $date->translatedFormat('M'),
+                'total' => $total,
+                'stunting' => $stunting,
+                'stunting_rate' => $total > 0 ? round(($stunting / $total) * 100, 1) : 0,
+                'gizi_buruk' => $giziBuruk,
+                'gizi_buruk_rate' => $total > 0 ? round(($giziBuruk / $total) * 100, 1) : 0,
+            ];
+        }
+        
+        return $trend;
     }
 }

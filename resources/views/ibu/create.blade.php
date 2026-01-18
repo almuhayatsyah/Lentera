@@ -1,5 +1,11 @@
 <x-admin-layout>
     <x-slot name="title">Tambah Data Ibu</x-slot>
+    <x-slot name="pageTitle">Tambah Data Ibu Baru</x-slot>
+    <x-slot name="backUrl">{{ route('ibu.index') }}</x-slot>
+    <x-slot name="breadcrumbItems">
+        <li class="breadcrumb-item"><a href="{{ route('ibu.index') }}">Data Ibu</a></li>
+        <li class="breadcrumb-item active">Tambah</li>
+    </x-slot>
 
     <div class="row justify-content-center">
         <div class="col-12 col-lg-8">
@@ -24,6 +30,7 @@
                                 <label class="form-label">NIK <span class="text-danger">*</span></label>
                                 <input type="text" name="nik" class="form-control @error('nik') is-invalid @enderror" 
                                        value="{{ old('nik') }}" maxlength="16" pattern="[0-9]{16}" 
+                                       inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                        placeholder="16 digit NIK" required>
                                 @error('nik')
                                     <div class="invalid-feedback">{{ $message }}</div>

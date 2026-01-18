@@ -26,6 +26,7 @@ class User extends Authenticatable
         'nip',
         'telepon',
         'aktif',
+        'photo',
     ];
 
     /**
@@ -143,5 +144,16 @@ class User extends Authenticatable
     public function scopePosyandu($query, $posyanduId)
     {
         return $query->where('posyandu_id', $posyanduId);
+    }
+
+    /**
+     * Get photo URL accessor
+     */
+    public function getPhotoUrlAttribute(): ?string
+    {
+        if ($this->photo) {
+            return asset('storage/' . $this->photo);
+        }
+        return null;
     }
 }
