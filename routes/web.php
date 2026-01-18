@@ -16,13 +16,13 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-// Redirect root to login or dashboard
+// Landing page for guests, redirect to dashboard for authenticated users
 Route::get('/', function () {
     if (auth()->check()) {
         return redirect()->route('dashboard');
     }
-    return redirect()->route('login');
-});
+    return view('landing');
+})->name('home');
 
 // Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])
