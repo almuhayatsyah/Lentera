@@ -153,9 +153,9 @@
     <!-- ALERT NOTIFICATIONS -->
     @if(isset($alerts) && ($alerts['belum_kunjungan']->count() > 0 || $alerts['stunting']->count() > 0 || $alerts['gizi_buruk']->count() > 0))
     <div class="card mb-4 border-warning">
-        <div class="card-header bg-warning bg-opacity-10 d-flex align-items-center">
-            <i class="bx bx-bell bx-tada text-warning me-2 fs-4"></i>
-            <h5 class="mb-0 text-warning">Perlu Perhatian</h5>
+        <div class="card-header bg-warning d-flex align-items-center py-3">
+            <i class="bx bx-bell bx-tada text-white me-2 fs-4"></i>
+            <h5 class="mb-0 text-white fw-bold">Perlu Perhatian</h5>
         </div>
         <div class="card-body p-3">
             <div class="row g-3">

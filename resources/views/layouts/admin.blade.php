@@ -378,7 +378,7 @@
                         <span class="app-brand-logo demo me-2">
                             <img src="{{ asset('assets/img/favicon/logo.png') }}" alt="LENTERA" style="height: 32px; width: auto;">
                         </span>
-                        <span class="app-brand-text demo text-white fw-bold">LENTERA</span>
+                        <span class="app-brand-text demo text-white fw-bold" style="text-transform: none !important;">LENTERA</span>
                     </a>
                     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
                         <i class="bx bx-chevron-left bx-sm align-middle text-white"></i>
@@ -497,7 +497,7 @@
                     <div class="d-flex align-items-center d-xl-none me-auto">
                         <a href="{{ route('dashboard') }}" class="d-flex align-items-center text-decoration-none">
                             <img src="{{ asset('assets/img/favicon/logo.png') }}" alt="LENTERA" height="32" class="me-2">
-                            <span class="fw-bold text-primary d-none d-sm-inline" style="font-size: 1.1rem;">LENTERA</span>
+                            <span class="fw-bold text-primary d-inline" style="font-size: 1.1rem; text-transform: none !important;">LENTERA</span>
                         </a>
                     </div>
 

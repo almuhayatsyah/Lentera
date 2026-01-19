@@ -213,10 +213,66 @@
             </button>
         </form>
 
+        <div class="mt-3 text-center">
+            <small class="text-muted">
+                Dengan masuk, Anda menyetujui <br>
+                <a href="#" class="text-primary text-decoration-none" data-bs-toggle="modal" data-bs-target="#tosModal">Syarat & Ketentuan</a> & 
+                <a href="#" class="text-primary text-decoration-none" data-bs-toggle="modal" data-bs-target="#policyModal">Kebijakan Privasi</a>
+            </small>
+        </div>
+
         <a href="{{ route('home') }}" class="back-link">
             <i class="bx bx-arrow-back"></i> Kembali ke Beranda
         </a>
     </div>
+
+    <!-- Modals -->
+    <div class="modal fade" id="tosModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0" style="border-radius: 20px;">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold">Syarat & Ketentuan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ol class="small text-muted ps-3">
+                        <li class="mb-2"><strong>Penerimaan Layanan</strong>: Dengan menggunakan aplikasi LENTERA, Anda setuju untuk mematuhi aturan penggunaan yang berlaku.</li>
+                        <li class="mb-2"><strong>Kewajiban Pengguna</strong>: Kader dan Admin wajib menjaga kerahasiaan kredensial akun dan dilarang membagikan data pasien kepada pihak yang tidak berwenang.</li>
+                        <li class="mb-2"><strong>Disclaimer Kesehatan</strong>: Data hasil perhitungan otomatis (Stunting/Gizi) adalah alat bantu skrining awal dan bukan merupakan diagnosa medis final tanpa konsultasi tenaga kesehatan.</li>
+                        <li class="mb-2"><strong>Keamanan</strong>: Pengguna bertanggung jawab penuh atas segala aktivitas yang dilakukan melalui akun milik mereka.</li>
+                    </ol>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-primary w-100 rounded-pill" data-bs-dismiss="modal">Saya Mengerti</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="policyModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0" style="border-radius: 20px;">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold">Kebijakan Privasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ol class="small text-muted ps-3">
+                        <li class="mb-2"><strong>Pengumpulan Data</strong>: LENTERA mengumpulkan data Balita dan Ibu (Nama, Tanggal Lahir, Pengukuran Fisik) semata-mata untuk tujuan pemantauan tumbuh kembang oleh Puskesmas.</li>
+                        <li class="mb-2"><strong>Penyimpanan Data</strong>: Data disimpan secara aman di server kami dan hanya dapat diakses oleh personil berwenang (Kader Posyandu & Admin Puskesmas).</li>
+                        <li class="mb-2"><strong>Keamanan Data</strong>: Kami menggunakan enkripsi standar untuk melindungi data dari akses tanpa izin.</li>
+                        <li class="mb-2"><strong>Hak Pengguna</strong>: Orang tua balita memiliki hak untuk mengetahui data yang tercatat dan meminta perbaikan jika terdapat kesalahan data.</li>
+                    </ol>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-primary w-100 rounded-pill" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
         function togglePassword() {

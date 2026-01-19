@@ -7,9 +7,14 @@
                 <i class="bx bx-history me-2"></i>
                 Riwayat Kunjungan
             </h5>
-            <a href="{{ route('export.kunjungan', request()->query()) }}" class="btn btn-success">
-                <i class="bx bx-download"></i> Export Excel
-            </a>
+            <div class="d-flex gap-2">
+                <a href="{{ route('kunjungan.wizard') }}" class="btn btn-primary">
+                    <i class="bx bx-plus-circle"></i> Tambah Kunjungan
+                </a>
+                <a href="{{ route('export.kunjungan', request()->query()) }}" class="btn btn-success">
+                    <i class="bx bx-download"></i> Export Excel
+                </a>
+            </div>
         </div>
         <div class="card-body">
             <!-- Filter -->
