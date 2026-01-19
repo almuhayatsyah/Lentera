@@ -51,75 +51,209 @@
 
     <!-- Summary Stats -->
     <div class="row mb-4">
-        <div class="col-6 col-lg-3 mb-3">
+        <div class="col-6 col-md-4 col-lg-2 mb-3">
             <div class="card card-hover h-100">
-                <div class="card-body p-3 p-md-4">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar flex-shrink-0 me-2 me-md-3">
-                            <span class="avatar-initial rounded bg-label-primary">
-                                <i class="bx bx-child"></i>
-                            </span>
-                        </div>
-                        <div class="overflow-hidden">
-                            <span class="text-muted d-block mb-1 small text-truncate">Total Balita</span>
-                            <h4 class="mb-0">{{ $totalAnak }}</h4>
-                        </div>
+                <div class="card-body p-3 p-md-4 text-center">
+                    <div class="avatar mx-auto mb-2">
+                        <span class="avatar-initial rounded bg-label-primary">
+                            <i class="bx bx-child"></i>
+                        </span>
+                    </div>
+                    <div class="overflow-hidden">
+                        <span class="text-muted d-block mb-1 small text-truncate">Total Balita</span>
+                        <h4 class="mb-0">{{ $totalAnak }}</h4>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-6 col-lg-3 mb-3">
+        <div class="col-6 col-md-4 col-lg-2 mb-3">
             <div class="card card-hover h-100">
-                <div class="card-body p-3 p-md-4">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar flex-shrink-0 me-2 me-md-3">
-                            <span class="avatar-initial rounded bg-label-success">
-                                <i class="bx bx-calendar-check"></i>
-                            </span>
-                        </div>
-                        <div class="overflow-hidden">
-                            <span class="text-muted d-block mb-1 small text-truncate">Kunjungan</span>
-                            <h4 class="mb-0">{{ $totalKunjunganBulanIni }}</h4>
-                        </div>
+                <div class="card-body p-3 p-md-4 text-center">
+                    <div class="avatar mx-auto mb-2">
+                        <span class="avatar-initial rounded bg-label-success">
+                            <i class="bx bx-calendar-check"></i>
+                        </span>
+                    </div>
+                    <div class="overflow-hidden">
+                        <span class="text-muted d-block mb-1 small text-truncate">Kunjungan</span>
+                        <h4 class="mb-0">{{ $totalKunjunganBulanIni }}</h4>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-6 col-lg-3 mb-3">
+        <div class="col-6 col-md-4 col-lg-2 mb-3">
             <div class="card card-hover h-100 border-warning">
-                <div class="card-body p-3 p-md-4">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar flex-shrink-0 me-2 me-md-3">
-                            <span class="avatar-initial rounded bg-label-warning">
-                                <i class="bx bx-trending-down"></i>
-                            </span>
-                        </div>
-                        <div class="overflow-hidden">
-                            <span class="text-muted d-block mb-1 small text-truncate">Stunting</span>
-                            <h4 class="mb-0 text-warning">{{ $stuntingCount }}</h4>
-                        </div>
+                <div class="card-body p-3 p-md-4 text-center">
+                    <div class="avatar mx-auto mb-2">
+                        <span class="avatar-initial rounded bg-label-warning">
+                            <i class="bx bx-trending-down"></i>
+                        </span>
+                    </div>
+                    <div class="overflow-hidden">
+                        <span class="text-muted d-block mb-1 small text-truncate">Stunting</span>
+                        <h4 class="mb-0 text-warning">{{ $stuntingCount }}</h4>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-6 col-lg-3 mb-3">
+        <div class="col-6 col-md-4 col-lg-2 mb-3">
             <div class="card card-hover h-100 border-danger">
-                <div class="card-body p-3 p-md-4">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar flex-shrink-0 me-2 me-md-3">
-                            <span class="avatar-initial rounded bg-label-danger">
-                                <i class="bx bx-error-circle"></i>
-                            </span>
-                        </div>
-                        <div class="overflow-hidden">
-                            <span class="text-muted d-block mb-1 small text-truncate">Gizi Buruk</span>
-                            <h4 class="mb-0 text-danger">{{ $underweightCount }}</h4>
-                        </div>
+                <div class="card-body p-3 p-md-4 text-center">
+                    <div class="avatar mx-auto mb-2">
+                        <span class="avatar-initial rounded bg-label-danger">
+                            <i class="bx bx-error-circle"></i>
+                        </span>
+                    </div>
+                    <div class="overflow-hidden">
+                        <span class="text-muted d-block mb-1 small text-truncate">Gizi Buruk</span>
+                        <h4 class="mb-0 text-danger">{{ $underweightCount }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-4 col-lg-2 mb-3">
+            <div class="card card-hover h-100 border-info">
+                <div class="card-body p-3 p-md-4 text-center">
+                    <div class="avatar mx-auto mb-2">
+                        <span class="avatar-initial rounded bg-label-info">
+                            <i class="bx bx-group"></i>
+                        </span>
+                    </div>
+                    <div class="overflow-hidden">
+                        <span class="text-muted d-block mb-1 small text-truncate">Total User</span>
+                        <h4 class="mb-0 text-info">{{ $totalUsers }}</h4>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <style>
+        .alert-hover-item {
+            transition: all 0.2s ease;
+            border-radius: 4px;
+            padding-left: 5px !important;
+            padding-right: 5px !important;
+            margin-bottom: 2px;
+        }
+        .alert-primary .alert-hover-item:hover {
+            background-color: rgba(105, 108, 255, 0.1) !important;
+            transform: translateX(5px);
+        }
+        .alert-warning .alert-hover-item:hover {
+            background-color: rgba(255, 171, 0, 0.1) !important;
+            transform: translateX(5px);
+        }
+        .alert-danger .alert-hover-item:hover {
+            background-color: rgba(255, 62, 29, 0.1) !important;
+            transform: translateX(5px);
+        }
+    </style>
+
+    <!-- ALERT NOTIFICATIONS -->
+    @if(isset($alerts) && ($alerts['belum_kunjungan']->count() > 0 || $alerts['stunting']->count() > 0 || $alerts['gizi_buruk']->count() > 0))
+    <div class="card mb-4 border-warning">
+        <div class="card-header bg-warning bg-opacity-10 d-flex align-items-center">
+            <i class="bx bx-bell bx-tada text-warning me-2 fs-4"></i>
+            <h5 class="mb-0 text-warning">Perlu Perhatian</h5>
+        </div>
+        <div class="card-body p-3">
+            <div class="row g-3">
+                <!-- Anak Belum Kunjungan Bulan Ini -->
+                @if($alerts['belum_kunjungan']->count() > 0)
+                <div class="col-12 col-md-4">
+                    <div class="alert alert-primary mb-0 h-100">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bx bx-calendar-x fs-4 me-2"></i>
+                            <strong>{{ $alerts['belum_kunjungan']->count() }} Anak Belum Kunjungan</strong>
+                        </div>
+                        <small class="text-muted d-block mb-2">Bulan {{ now()->translatedFormat('F Y') }}</small>
+                        <div class="mt-2" style="max-height: 150px; overflow-y: auto;">
+                            <ul class="list-group list-group-flush bg-transparent">
+                                @foreach($alerts['belum_kunjungan']->take(5) as $anak)
+                                <li class="list-group-item bg-transparent px-0 py-1 d-flex justify-content-between align-items-center alert-hover-item">
+                                    <div class="overflow-hidden">
+                                        <div class="fw-semibold text-truncate">{{ $anak->nama }}</div>
+                                        <small class="text-muted" style="font-size: 0.75rem">{{ $anak->posyandu?->nama ?? '-' }}</small>
+                                    </div>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @if($alerts['belum_kunjungan']->count() > 5)
+                        <div class="mt-2 text-center">
+                            <a href="{{ route('anak.index') }}" class="btn btn-xs btn-outline-primary">Lihat Semua</a>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+                @endif
+
+                <!-- Anak Stunting -->
+                @if($alerts['stunting']->count() > 0)
+                <div class="col-12 col-md-4">
+                    <div class="alert alert-warning mb-0 h-100">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bx bx-trending-down fs-4 me-2"></i>
+                            <strong>{{ $alerts['stunting']->count() }} Anak Stunting</strong>
+                        </div>
+                        <small class="text-muted d-block mb-2">Perlu intervensi gizi</small>
+                        <div class="mt-2" style="max-height: 150px; overflow-y: auto;">
+                            <ul class="list-group list-group-flush bg-transparent">
+                                @foreach($alerts['stunting']->take(5) as $anak)
+                                <li class="list-group-item bg-transparent px-0 py-1 d-flex justify-content-between align-items-center alert-hover-item">
+                                    <div class="overflow-hidden">
+                                        <div class="fw-semibold text-truncate">{{ $anak->nama }}</div>
+                                        <small class="text-muted" style="font-size: 0.75rem">{{ $anak->posyandu?->nama ?? '-' }}</small>
+                                    </div>
+                                    <span class="badge bg-warning text-dark" style="font-size: 0.7rem">Stunting</span>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @if($alerts['stunting']->count() > 5)
+                        <div class="mt-2 text-center">
+                            <a href="{{ route('anak.index') }}" class="btn btn-xs btn-outline-warning">Lihat Semua</a>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+                @endif
+
+                <!-- Anak Gizi Buruk -->
+                @if($alerts['gizi_buruk']->count() > 0)
+                <div class="col-12 col-md-4">
+                    <div class="alert alert-danger mb-0 h-100">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="bx bx-error-circle fs-4 me-2"></i>
+                            <strong>{{ $alerts['gizi_buruk']->count() }} Anak Gizi Buruk</strong>
+                        </div>
+                        <small class="text-muted d-block mb-2">Perlu penanganan segera</small>
+                        <div class="mt-2" style="max-height: 150px; overflow-y: auto;">
+                            <ul class="list-group list-group-flush bg-transparent">
+                                @foreach($alerts['gizi_buruk']->take(5) as $anak)
+                                <li class="list-group-item bg-transparent px-0 py-1 d-flex justify-content-between align-items-center alert-hover-item">
+                                    <div class="overflow-hidden">
+                                        <div class="fw-semibold text-truncate">{{ $anak->nama }}</div>
+                                        <small class="text-muted" style="font-size: 0.75rem">{{ $anak->posyandu?->nama ?? '-' }}</small>
+                                    </div>
+                                    <span class="badge bg-danger" style="font-size: 0.7rem">Gizi Buruk</span>
+                                </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @if($alerts['gizi_buruk']->count() > 5)
+                        <div class="mt-2 text-center">
+                            <a href="{{ route('anak.index') }}" class="btn btn-xs btn-outline-danger">Lihat Semua</a>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+                @endif
+            </div>
+        </div>
+    </div>
+    @endif
 
     <!-- Charts Row -->
     <div class="row mb-4">

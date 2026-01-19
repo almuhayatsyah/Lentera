@@ -133,13 +133,25 @@ class LaporanController extends Controller
     }
 
     /**
-     * Export SKDN to Excel/CSV
+     * Export SKDN to Excel
      */
     public function exportSkdn(Request $request)
     {
-        // TODO: Implement Excel export using Laravel Excel package
-        return redirect()->route('laporan.skdn')
-            ->with('info', 'Fitur export sedang dalam pengembangan.');
+        $bulan = $request->get('bulan', now()->month);
+        $tahun = $request->get('tahun', now()->year);
+
+        $namaBulan = [
+            1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+            5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+            9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+        ];
+
+        $filename = 'Laporan_SKDN_' . $namaBulan[$bulan] . '_' . $tahun . '.xlsx';
+
+        return \Maatwebsite\Excel\Facades\Excel::download(
+            new \App\Exports\SkdnExport($bulan, $tahun), 
+            $filename
+        );
     }
 
     /**

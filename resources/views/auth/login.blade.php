@@ -186,8 +186,8 @@
             
             <div class="mb-3">
                 <label class="form-label">NIP / Email</label>
-                <input type="text" name="nip" class="form-control" 
-                       value="{{ old('nip') }}" placeholder="Masukkan NIP atau Email" required autofocus>
+                <input type="text" name="login" class="form-control" 
+                       value="{{ old('login') }}" placeholder="Masukkan NIP atau Email" required autofocus>
             </div>
 
             <div class="mb-3">

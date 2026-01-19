@@ -54,6 +54,7 @@ class DashboardController extends Controller
         // Total statistics
         $totalAnak = Anak::aktif()->balita()->count();
         $totalKunjunganBulanIni = Kunjungan::bulanIni()->count();
+        $totalUsers = \App\Models\User::aktif()->count();
 
         // Get stunting statistics
         $stuntingCount = Pengukuran::whereHas('kunjungan', function ($q) {
@@ -76,15 +77,47 @@ class DashboardController extends Controller
             ->take(10)
             ->get();
 
+        // ALERTS: Children who need attention
+        $alerts = [
+            'belum_kunjungan' => Anak::aktif()->balita()
+                ->whereDoesntHave('kunjungans', function ($q) {
+                    $q->whereMonth('tanggal_kunjungan', now()->month)
+                      ->whereYear('tanggal_kunjungan', now()->year);
+                })
+                ->with(['ibu', 'posyandu'])
+                ->take(10)
+                ->get(),
+            'stunting' => Anak::aktif()->balita()
+                ->whereHas('kunjungans.pengukuran', function ($q) {
+                    $q->whereIn('status_stunting', ['pendek', 'sangat_pendek']);
+                })
+                ->with(['ibu', 'posyandu', 'kunjungans' => function ($q) {
+                    $q->latest()->limit(1)->with('pengukuran');
+                }])
+                ->take(10)
+                ->get(),
+            'gizi_buruk' => Anak::aktif()->balita()
+                ->whereHas('kunjungans.pengukuran', function ($q) {
+                    $q->whereIn('status_gizi', ['gizi_kurang', 'gizi_buruk']);
+                })
+                ->with(['ibu', 'posyandu', 'kunjungans' => function ($q) {
+                    $q->latest()->limit(1)->with('pengukuran');
+                }])
+                ->take(10)
+                ->get(),
+        ];
+
         return view('dashboard.admin', compact(
             'posyandus',
             'totalAnak',
             'totalKunjunganBulanIni',
+            'totalUsers',
             'stuntingCount',
             'underweightCount',
             'statusDistribution',
             'stuntingTrend',
-            'recentKunjungans'
+            'recentKunjungans',
+            'alerts'
         ));
     }
 

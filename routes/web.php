@@ -21,7 +21,15 @@ Route::get('/', function () {
     if (auth()->check()) {
         return redirect()->route('dashboard');
     }
-    return view('landing');
+    
+    // Fetch real statistics for landing page
+    $stats = [
+        'posyandu' => \App\Models\Posyandu::where('aktif', true)->count(),
+        'balita' => \App\Models\Anak::where('aktif', true)->count(),
+        'kader' => \App\Models\User::where('role', 'kader')->where('aktif', true)->count(),
+    ];
+    
+    return view('landing', compact('stats'));
 })->name('home');
 
 // Dashboard
@@ -55,6 +63,11 @@ Route::middleware('auth')->group(function () {
     // API for live calculation (AJAX)
     Route::post('/api/calculate-status', [KunjunganController::class, 'calculateStatus'])->name('api.calculate-status');
     Route::get('/api/search-anak', [AnakController::class, 'search'])->name('api.search-anak');
+
+    // Export Routes
+    Route::get('/export/anak', [App\Http\Controllers\ExportController::class, 'anak'])->name('export.anak');
+    Route::get('/export/ibu', [App\Http\Controllers\ExportController::class, 'ibu'])->name('export.ibu');
+    Route::get('/export/kunjungan', [App\Http\Controllers\ExportController::class, 'kunjungan'])->name('export.kunjungan');
 
     // Admin Only Routes
     Route::middleware('can:admin')->group(function () {

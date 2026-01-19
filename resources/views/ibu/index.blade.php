@@ -11,9 +11,14 @@
                 <i class="bx bx-female me-2"></i>
                 Daftar Data Ibu
             </h5>
-            <a href="{{ route('ibu.create') }}" class="btn btn-primary">
-                <i class="bx bx-plus"></i> Tambah Ibu
-            </a>
+            <div class="d-flex gap-2">
+                <a href="{{ route('export.ibu', request()->query()) }}" class="btn btn-success">
+                    <i class="bx bx-download"></i> Export Excel
+                </a>
+                <a href="{{ route('ibu.create') }}" class="btn btn-primary">
+                    <i class="bx bx-plus"></i> Tambah Ibu
+                </a>
+            </div>
         </div>
         <div class="card-body">
             <!-- Filter -->

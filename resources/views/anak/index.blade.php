@@ -11,9 +11,14 @@
                 <i class="bx bx-child me-2"></i>
                 Daftar Data Anak
             </h5>
-            <a href="{{ route('anak.create') }}" class="btn btn-primary">
-                <i class="bx bx-plus"></i> Tambah Anak
-            </a>
+            <div class="d-flex gap-2">
+                <a href="{{ route('export.anak', request()->query()) }}" class="btn btn-success">
+                    <i class="bx bx-download"></i> Export Excel
+                </a>
+                <a href="{{ route('anak.create') }}" class="btn btn-primary">
+                    <i class="bx bx-plus"></i> Tambah Anak
+                </a>
+            </div>
         </div>
         <div class="card-body">
             <!-- Filter -->

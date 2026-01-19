@@ -357,10 +357,8 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 order-lg-1 order-2">
-                    <div class="mb-3">
-                        <img src="{{ asset('assets/img/favicon/logo.png') }}" alt="LENTERA" style="height: 70px;" class="d-none d-lg-inline-block">
-                    </div>
-                    <h1 class="hero-title">
+                    <h1 class="hero-title d-flex align-items-center gap-3 flex-wrap">
+                        <img src="{{ asset('assets/img/favicon/logo.png') }}" alt="LENTERA" style="height: 65px;">
                         <span>LENTERA</span>
                     </h1>
                     <p class="hero-acronym mb-3" style="font-size: 1.1rem; color: var(--primary); font-weight: 600;">
@@ -448,19 +446,19 @@
             <div class="row g-4 text-center">
                 <div class="col-6 col-md-3">
                     <div class="stat-item">
-                        <div class="stat-number">5+</div>
-                        <div class="stat-label">Posyandu</div>
+                        <div class="stat-number">{{ $stats['posyandu'] ?? 0 }}</div>
+                        <div class="stat-label">Posyandu Aktif</div>
                     </div>
                 </div>
                 <div class="col-6 col-md-3">
                     <div class="stat-item">
-                        <div class="stat-number">100+</div>
+                        <div class="stat-number">{{ $stats['balita'] ?? 0 }}</div>
                         <div class="stat-label">Balita Terpantau</div>
                     </div>
                 </div>
                 <div class="col-6 col-md-3">
                     <div class="stat-item">
-                        <div class="stat-number">10+</div>
+                        <div class="stat-number">{{ $stats['kader'] ?? 0 }}</div>
                         <div class="stat-label">Kader Aktif</div>
                     </div>
                 </div>
@@ -516,6 +514,8 @@
             <hr class="my-4" style="border-color: #374151;">
             <div class="text-center">
                 <small>&copy; {{ date('Y') }} LENTERA. Dibuat dengan <i class="bx bx-heart text-danger"></i> untuk Indonesia Sehat.</small>
+                <br>
+               <small>Developed by <a href="https://almuhayatsyah.my.id">Almuhayatsyah</a></small>
             </div>
         </div>
     </footer>

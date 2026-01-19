@@ -2,11 +2,14 @@
     <x-slot name="title">Riwayat Kunjungan</x-slot>
 
     <div class="card">
-        <div class="card-header">
+        <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
             <h5 class="mb-0">
                 <i class="bx bx-history me-2"></i>
                 Riwayat Kunjungan
             </h5>
+            <a href="{{ route('export.kunjungan', request()->query()) }}" class="btn btn-success">
+                <i class="bx bx-download"></i> Export Excel
+            </a>
         </div>
         <div class="card-body">
             <!-- Filter -->
