@@ -8,6 +8,7 @@ use App\Models\Pengukuran;
 use App\Models\Pelayanan;
 use App\Models\Posyandu;
 use App\Services\GrowthCalculatorService;
+use App\Services\ActivityLogger;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -203,6 +204,8 @@ class KunjunganController extends Controller
             'konseling_gizi' => $request->boolean('konseling_gizi'),
             'materi_konseling' => $validated['materi_konseling'] ?? null,
         ]);
+
+        ActivityLogger::log('Entri Kunjungan', "Berhasil menyimpan data kunjungan (Meja 5) untuk anak: {$anak->nama}");
 
         // Prepare success message with status info
         $statusMessage = "Data kunjungan {$anak->nama} berhasil disimpan.";

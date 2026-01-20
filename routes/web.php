@@ -8,6 +8,7 @@ use App\Http\Controllers\AnakController;
 use App\Http\Controllers\KunjunganController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\ActivityLogController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -81,6 +82,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/laporan/skdn', [LaporanController::class, 'skdn'])->name('laporan.skdn');
         Route::get('/laporan/sebaran', [LaporanController::class, 'sebaran'])->name('laporan.sebaran');
         Route::get('/laporan/export-skdn', [LaporanController::class, 'exportSkdn'])->name('laporan.export-skdn');
+
+        // Activity Logs
+        Route::get('/activity-log', [ActivityLogController::class, 'index'])->name('activity-log.index');
+        Route::get('/activity-log/{activity_log}', [ActivityLogController::class, 'show'])->name('activity-log.show');
+        Route::delete('/activity-log/{activity_log}', [ActivityLogController::class, 'destroy'])->name('activity-log.destroy');
+        Route::post('/activity-log/clear', [ActivityLogController::class, 'clear'])->name('activity-log.clear');
     });
 });
 

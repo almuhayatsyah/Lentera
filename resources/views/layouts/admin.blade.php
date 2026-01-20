@@ -478,6 +478,12 @@
                             <div>Pengguna</div>
                         </a>
                     </li>
+                    <li class="menu-item {{ request()->routeIs('activity-log.*') ? 'active' : '' }}">
+                        <a href="{{ route('activity-log.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-list-ul"></i>
+                            <div>Log Aktivitas</div>
+                        </a>
+                    </li>
                     @endif
                 </ul>
             </aside>

@@ -7,6 +7,7 @@ use App\Models\Posyandu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use App\Services\ActivityLogger;
 
 class UserController extends Controller
 {
@@ -82,6 +83,8 @@ class UserController extends Controller
             'aktif' => true,
         ]);
 
+        ActivityLogger::log('Tambah Pengguna', "Admin berhasil menambahkan pengguna baru: {$validated['name']} ({$validated['role']})");
+
         return redirect()->route('users.index')
             ->with('success', 'Pengguna berhasil ditambahkan.');
     }
@@ -141,6 +144,8 @@ class UserController extends Controller
 
         $user->save();
 
+        ActivityLogger::log('Update Pengguna', "Admin memperbarui data pengguna: {$user->name}");
+
         return redirect()->route('users.index')
             ->with('success', 'Pengguna berhasil diperbarui.');
     }
@@ -163,6 +168,8 @@ class UserController extends Controller
             return redirect()->route('users.index')
                 ->with('success', 'Pengguna berhasil dinonaktifkan (memiliki data kunjungan).');
         }
+
+        ActivityLogger::log('Hapus Pengguna', "Admin menghapus pengguna: {$user->name}");
 
         $user->delete();
 

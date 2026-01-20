@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ibu;
 use App\Models\Posyandu;
 use Illuminate\Http\Request;
+use App\Services\ActivityLogger;
 
 class IbuController extends Controller
 {
@@ -76,6 +77,8 @@ class IbuController extends Controller
 
         Ibu::create($validated);
 
+        ActivityLogger::log('Tambah Data Ibu', "Berhasil menambahkan data ibu: {$validated['nama']}");
+
         return redirect()->route('ibu.index')
             ->with('success', 'Data ibu berhasil ditambahkan.');
     }
@@ -133,6 +136,8 @@ class IbuController extends Controller
 
         $ibu->update($validated);
 
+        ActivityLogger::log('Update Data Ibu', "Memperbarui data ibu: {$ibu->nama}");
+
         return redirect()->route('ibu.index')
             ->with('success', 'Data ibu berhasil diperbarui.');
     }
@@ -148,6 +153,8 @@ class IbuController extends Controller
             return redirect()->route('ibu.index')
                 ->with('error', 'Tidak dapat menghapus ibu yang masih memiliki data anak.');
         }
+
+        ActivityLogger::log('Hapus Data Ibu', "Menghapus data ibu: {$ibu->nama}");
 
         $ibu->delete();
 

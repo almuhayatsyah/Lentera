@@ -18,7 +18,8 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
                                 <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" 
-                                       value="{{ old('name') }}" required>
+                                       value="{{ old('name') }}" required
+                                       oninput="this.value = this.value.replace(/[0-9]/g, '')">
                                 @error('name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -63,7 +64,7 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="col-md-6 mb-3" id="posyanduField">
+                            <div class="col-md-6 mb-3" id="posyanduField" style="{{ old('role') == 'kader' ? '' : 'display: none;' }}">
                                 <label class="form-label">Posyandu <span class="text-danger" id="posyanduRequired">*</span></label>
                                 <select name="posyandu_id" class="form-select @error('posyandu_id') is-invalid @enderror">
                                     <option value="">Pilih Posyandu</option>
@@ -84,12 +85,14 @@
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">NIP</label>
                                 <input type="text" name="nip" class="form-control" value="{{ old('nip') }}" 
-                                       placeholder="Nomor Induk Pegawai (opsional)">
+                                       placeholder="Nomor Induk Pegawai (opsional)"
+                                       oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Telepon</label>
                                 <input type="text" name="telepon" class="form-control" value="{{ old('telepon') }}" 
-                                       placeholder="08xxxxxxxxxx">
+                                       placeholder="08xxxxxxxxxx"
+                                       oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                             </div>
                         </div>
 
@@ -121,15 +124,16 @@
     <script>
         function togglePosyandu() {
             const role = document.getElementById('roleSelect').value;
-            const required = document.getElementById('posyanduRequired');
+            const field = document.getElementById('posyanduField');
             const posyanduSelect = document.querySelector('select[name="posyandu_id"]');
             
             if (role === 'kader') {
-                required.style.display = 'inline';
+                field.style.display = 'block';
                 posyanduSelect.setAttribute('required', 'required');
             } else {
-                required.style.display = 'none';
+                field.style.display = 'none';
                 posyanduSelect.removeAttribute('required');
+                posyanduSelect.value = '';
             }
         }
         // Initialize on page load

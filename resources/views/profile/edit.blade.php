@@ -6,26 +6,57 @@
         <li class="breadcrumb-item active">Profil</li>
     </x-slot>
 
+@push('styles')
+<style>
+    .profile-photo-container {
+        transition: all 0.3s ease;
+    }
+    .profile-photo-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .profile-photo-container:hover .profile-photo-overlay {
+        opacity: 1;
+    }
+    .profile-photo-container img {
+        transition: filter 0.3s ease;
+    }
+    .profile-photo-container:hover img {
+        filter: brightness(0.8);
+    }
+</style>
+@endpush
 
     <div class="row">
         <!-- Profile Summary Card -->
         <div class="col-md-4 mb-4">
             <div class="card h-100">
                 <div class="card-body text-center py-4">
-                    <div class="mb-3">
+                    <div class="mb-3 position-relative d-inline-block mx-auto profile-photo-container" 
+                         onclick="document.getElementById('photo').click()" 
+                         style="cursor: pointer;">
                         @if(auth()->user()->photo_url)
                             <img src="{{ auth()->user()->photo_url }}" 
                                  alt="{{ auth()->user()->name }}" 
-                                 class="rounded-circle mb-2"
+                                 class="rounded-circle"
                                  style="width: 120px; height: 120px; object-fit: cover; border: 4px solid #e9ecef;">
                         @else
-                            <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center mb-2"
+                            <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center"
                                  style="width: 120px; height: 120px;">
                                 <span class="text-white fs-1 fw-bold">
                                     {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
                                 </span>
                             </div>
                         @endif
+                        <div class="profile-photo-overlay rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bx bx-camera fs-2 text-white"></i>
+                        </div>
                     </div>
                     <h5 class="mb-1">{{ auth()->user()->name }}</h5>
                     <span class="badge bg-label-primary mb-2">{{ auth()->user()->role_label }}</span>
@@ -61,10 +92,12 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <form method="post" action="{{ route('profile.photo') }}" enctype="multipart/form-data">
+                    <form id="photoForm" method="post" action="{{ route('profile.photo') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="d-flex align-items-center gap-4">
-                            <div class="flex-shrink-0">
+                            <div class="flex-shrink-0 position-relative profile-photo-container" 
+                                 onclick="document.getElementById('photo').click()" 
+                                 style="cursor: pointer;">
                                 @if($user->photo_url)
                                     <img src="{{ $user->photo_url }}" 
                                          alt="{{ $user->name }}" 
@@ -76,22 +109,24 @@
                                         <i class="bx bx-user bx-lg text-white"></i>
                                     </div>
                                 @endif
+                                <div class="profile-photo-overlay rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bx bx-camera text-white"></i>
+                                </div>
                             </div>
                             <div class="flex-grow-1">
+                                <label class="form-label d-none d-md-block">Pilih Foto Baru</label>
                                 <input type="file" name="photo" id="photo" class="form-control" 
-                                       accept="image/jpeg,image/png,image/jpg">
+                                       accept="image/jpeg,image/png,image/jpg"
+                                       onchange="document.getElementById('photoForm').submit()">
                                 <small class="text-muted">JPG, JPEG, atau PNG. Maksimal 2MB.</small>
                                 @error('photo')
                                     <div class="text-danger small mt-1">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bx bx-upload me-1"></i>Upload
-                            </button>
                         </div>
                         @if (session('status') === 'photo-updated')
                             <div class="alert alert-success mt-3 mb-0 py-2">
-                                <i class="bx bx-check-circle me-1"></i>Foto berhasil diupload!
+                                <i class="bx bx-check-circle me-1"></i>Foto berhasil diperbarui!
                             </div>
                         @endif
                     </form>

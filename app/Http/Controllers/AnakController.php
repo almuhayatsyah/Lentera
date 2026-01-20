@@ -6,6 +6,7 @@ use App\Models\Anak;
 use App\Models\Ibu;
 use App\Models\Posyandu;
 use Illuminate\Http\Request;
+use App\Services\ActivityLogger;
 
 class AnakController extends Controller
 {
@@ -101,6 +102,8 @@ class AnakController extends Controller
 
         Anak::create($validated);
 
+        ActivityLogger::log('Tambah Data Anak', "Berhasil menambahkan data anak: {$validated['nama']}");
+
         return redirect()->route('anak.index')
             ->with('success', 'Data anak berhasil ditambahkan.');
     }
@@ -187,6 +190,8 @@ class AnakController extends Controller
 
         $anak->update($validated);
 
+        ActivityLogger::log('Update Data Anak', "Memperbarui data anak: {$anak->nama}");
+
         return redirect()->route('anak.index')
             ->with('success', 'Data anak berhasil diperbarui.');
     }
@@ -202,6 +207,8 @@ class AnakController extends Controller
             return redirect()->route('anak.index')
                 ->with('error', 'Tidak dapat menghapus anak yang sudah memiliki riwayat kunjungan.');
         }
+
+        ActivityLogger::log('Hapus Data Anak', "Menghapus data anak: {$anak->nama}");
 
         $anak->delete();
 
