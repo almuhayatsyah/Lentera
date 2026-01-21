@@ -78,10 +78,17 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="mt-2">
-                                <a href="{{ route('kunjungan.show', $kunjungan) }}" class="btn btn-sm btn-outline-primary w-100">
+                            <div class="mt-2 d-flex gap-1">
+                                <a href="{{ route('kunjungan.show', $kunjungan) }}" class="btn btn-sm btn-outline-primary flex-fill">
                                     <i class="bx bx-show"></i> Lihat Detail
                                 </a>
+                                <form action="{{ route('kunjungan.destroy', $kunjungan) }}" method="POST" style="display: inline;" id="deleteFormMobile{{ $kunjungan->id }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmDelete({{ $kunjungan->id }}, true)">
+                                        <i class="bx bx-trash"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -169,9 +176,18 @@
                                 @endif
                                 <td>{{ $kunjungan->user->name ?? '-' }}</td>
                                 <td>
-                                    <a href="{{ route('kunjungan.show', $kunjungan) }}" class="btn btn-sm btn-outline-primary">
-                                        <i class="bx bx-show"></i>
-                                    </a>
+                                    <div class="d-flex gap-1">
+                                        <a href="{{ route('kunjungan.show', $kunjungan) }}" class="btn btn-sm btn-outline-primary" title="Detail">
+                                            <i class="bx bx-show"></i>
+                                        </a>
+                                        <form action="{{ route('kunjungan.destroy', $kunjungan) }}" method="POST" style="display: inline;" id="deleteForm{{ $kunjungan->id }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmDelete({{ $kunjungan->id }})" title="Hapus">
+                                                <i class="bx bx-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @empty
@@ -191,4 +207,50 @@
             </div>
         </div>
     </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-white">
+                        <i class="bx bx-error-circle me-2"></i>Konfirmasi Hapus
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <i class="bx bx-trash bx-lg text-danger mb-3"></i>
+                    <p class="mb-0">Apakah Anda yakin ingin menghapus data kunjungan ini?</p>
+                    <small class="text-muted">Data yang dihapus tidak dapat dikembalikan, termasuk data pengukuran dan pelayanan terkait.</small>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                        <i class="bx bx-trash me-1"></i>Ya, Hapus
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @push('scripts')
+    <script>
+        let deleteId = null;
+        let isMobile = false;
+
+        function confirmDelete(id, mobile = false) {
+            deleteId = id;
+            isMobile = mobile;
+            const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            modal.show();
+        }
+
+        document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+            if (deleteId) {
+                const formId = isMobile ? 'deleteFormMobile' + deleteId : 'deleteForm' + deleteId;
+                document.getElementById(formId).submit();
+            }
+        });
+    </script>
+    @endpush
 </x-admin-layout>

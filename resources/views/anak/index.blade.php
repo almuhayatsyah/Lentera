@@ -169,11 +169,10 @@
                                             </li>
                                             <li><hr class="dropdown-divider"></li>
                                             <li>
-                                                <form action="{{ route('anak.destroy', $anak) }}" method="POST" 
-                                                      onsubmit="return confirm('Yakin ingin menghapus data anak ini?')">
+                                                <form action="{{ route('anak.destroy', $anak) }}" method="POST" id="deleteFormAnak{{ $anak->id }}">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="dropdown-item text-danger">
+                                                    <button type="button" class="dropdown-item text-danger" onclick="confirmDeleteAnak({{ $anak->id }})">
                                                         <i class="bx bx-trash me-2"></i> Hapus
                                                     </button>
                                                 </form>
@@ -199,4 +198,47 @@
             </div>
         </div>
     </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-white">
+                        <i class="bx bx-error-circle me-2"></i>Konfirmasi Hapus
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <i class="bx bx-trash bx-lg text-danger mb-3"></i>
+                    <p class="mb-0">Apakah Anda yakin ingin menghapus data anak ini?</p>
+                    <small class="text-muted">Data yang dihapus tidak dapat dikembalikan.</small>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                        <i class="bx bx-trash me-1"></i>Ya, Hapus
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @push('scripts')
+    <script>
+        let deleteAnakId = null;
+
+        function confirmDeleteAnak(id) {
+            deleteAnakId = id;
+            const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            modal.show();
+        }
+
+        document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+            if (deleteAnakId) {
+                document.getElementById('deleteFormAnak' + deleteAnakId).submit();
+            }
+        });
+    </script>
+    @endpush
 </x-admin-layout>

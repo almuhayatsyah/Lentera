@@ -483,10 +483,10 @@
                         <p class="mb-0 small text-truncate">SKDN</p>
                     </div>
                 </a>
-                <a href="{{ route('users.index') }}" class="card card-hover text-decoration-none flex-shrink-0" style="min-width: 100px;">
+                <a href="{{ route('settings.index') }}" class="card card-hover text-decoration-none flex-shrink-0" style="min-width: 100px;">
                     <div class="card-body text-center p-2 p-md-3">
-                        <i class="bx bx-user-circle text-info fs-4 mb-1"></i>
-                        <p class="mb-0 small text-truncate">Pengguna</p>
+                        <i class="bx bx-cog text-info fs-4 mb-1"></i>
+                        <p class="mb-0 small text-truncate">Pengaturan</p>
                     </div>
                 </a>
                 <a href="{{ route('posyandu.index') }}" class="card card-hover text-decoration-none flex-shrink-0" style="min-width: 100px;">

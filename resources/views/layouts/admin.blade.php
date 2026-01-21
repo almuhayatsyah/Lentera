@@ -468,20 +468,14 @@
                         </ul>
                     </li>
 
-                    <!-- Manajemen -->
+                    <!-- Pengaturan -->
                     <li class="menu-header small text-uppercase manajemen">
-                        <span class="menu-header-text">MANAJEMEN</span>
+                        <span class="menu-header-text">PENGATURAN</span>
                     </li>
-                    <li class="menu-item {{ request()->routeIs('users.*') ? 'active' : '' }}">
-                        <a href="{{ route('users.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-user-circle"></i>
-                            <div>Pengguna</div>
-                        </a>
-                    </li>
-                    <li class="menu-item {{ request()->routeIs('activity-log.*') ? 'active' : '' }}">
-                        <a href="{{ route('activity-log.index') }}" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-list-ul"></i>
-                            <div>Log Aktivitas</div>
+                    <li class="menu-item {{ request()->routeIs('settings.*') ? 'active' : '' }}">
+                        <a href="{{ route('settings.index') }}" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-cog"></i>
+                            <div>Pengaturan Sistem</div>
                         </a>
                     </li>
                     @endif

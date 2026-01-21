@@ -74,24 +74,30 @@
                     <i class="bx bx-map me-2"></i>
                     Peta Sebaran Posyandu
                 </h5>
-                <!-- Filter -->
-                <form action="{{ route('laporan.sebaran') }}" method="GET" class="d-flex gap-2">
-                    <select name="bulan" class="form-select form-select-sm" style="width: auto;">
-                        @for($i = 1; $i <= 12; $i++)
-                            <option value="{{ $i }}" {{ $bulan == $i ? 'selected' : '' }}>
-                                {{ \Carbon\Carbon::create()->month($i)->translatedFormat('F') }}
-                            </option>
-                        @endfor
-                    </select>
-                    <select name="tahun" class="form-select form-select-sm" style="width: auto;">
-                        @for($y = date('Y'); $y >= date('Y') - 3; $y--)
-                            <option value="{{ $y }}" {{ $tahun == $y ? 'selected' : '' }}>{{ $y }}</option>
-                        @endfor
-                    </select>
-                    <button type="submit" class="btn btn-sm btn-primary">
-                        <i class="bx bx-filter"></i>
-                    </button>
-                </form>
+                <div class="d-flex gap-2 align-items-center">
+                    <!-- PDF Export -->
+                    <a href="{{ route('laporan.sebaran.pdf', ['bulan' => $bulan, 'tahun' => $tahun]) }}" class="btn btn-sm btn-danger">
+                        <i class="bx bxs-file-pdf"></i> PDF
+                    </a>
+                    <!-- Filter -->
+                    <form action="{{ route('laporan.sebaran') }}" method="GET" class="d-flex gap-2">
+                        <select name="bulan" class="form-select form-select-sm" style="width: auto;">
+                            @for($i = 1; $i <= 12; $i++)
+                                <option value="{{ $i }}" {{ $bulan == $i ? 'selected' : '' }}>
+                                    {{ \Carbon\Carbon::create()->month($i)->translatedFormat('F') }}
+                                </option>
+                            @endfor
+                        </select>
+                        <select name="tahun" class="form-select form-select-sm" style="width: auto;">
+                            @for($y = date('Y'); $y >= date('Y') - 3; $y--)
+                                <option value="{{ $y }}" {{ $tahun == $y ? 'selected' : '' }}>{{ $y }}</option>
+                            @endfor
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            <i class="bx bx-filter"></i>
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
         <div class="card-body">
@@ -120,16 +126,16 @@
                             <div class="card-body">
                                 <table class="table table-sm table-borderless mb-0">
                                     <tr>
-                                        <td class="text-muted">Desa</td>
-                                        <td>{{ $posyandu['desa'] }}</td>
+                                        <td style="width: 50%;">Desa</td>
+                                        <td class="fw-semibold">{{ $posyandu['desa'] }}</td>
                                     </tr>
                                     <tr>
-                                        <td class="text-muted">Total Balita</td>
-                                        <td><strong>{{ $posyandu['total_anak'] }}</strong></td>
+                                        <td>Total Balita</td>
+                                        <td><strong class="text-primary fs-5">{{ $posyandu['total_anak'] }}</strong></td>
                                     </tr>
                                     <tr>
-                                        <td class="text-muted">Ditimbang Bulan Ini</td>
-                                        <td>{{ $posyandu['kunjungan_bulan_ini'] }}</td>
+                                        <td>Ditimbang Bulan Ini</td>
+                                        <td class="fw-semibold text-white">{{ $posyandu['kunjungan_bulan_ini'] }}</td>
                                     </tr>
                                 </table>
                                 <hr class="my-2">

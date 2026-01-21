@@ -155,10 +155,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        // Prevent self-deletion
-        if ($user->id === auth()->id()) {
+        // Prevent deletion of developer account
+        if ($user->email === 'developer@lentera.app') {
             return redirect()->route('users.index')
-                ->with('error', 'Anda tidak dapat menghapus akun sendiri.');
+                ->with('error', 'Tidak dapat menghapus akun Developer yang dilindungi.');
         }
 
         // Check for related data

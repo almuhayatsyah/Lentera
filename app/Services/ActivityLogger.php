@@ -10,19 +10,15 @@ class ActivityLogger
 {
     public static function log(string $activity, ?string $description = null, array $properties = [])
     {
-        if (!Auth::check()) {
-            return;
-        }
-
-        $request = request();
-
-        ActivityLog::create([
+        // Dispatch async job for logging to avoid blocking request
+        \App\Jobs\LogActivityJob::dispatch([
             'user_id' => Auth::id(),
             'activity' => $activity,
             'description' => $description,
             'properties' => $properties,
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
         ]);
+        return; // job will handle insertion
     }
 }

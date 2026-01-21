@@ -174,6 +174,23 @@
         </div>
     </div>
 
+    @push('styles')
+    <style>
+        /* Compact pagination */
+        .pagination {
+            margin-bottom: 0;
+        }
+        .pagination .page-link {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+        }
+        .pagination .page-item:first-child .page-link,
+        .pagination .page-item:last-child .page-link {
+            border-radius: 0.25rem;
+        }
+    </style>
+    @endpush
+
     <!-- Log Detail Modal -->
     <div class="modal fade" id="logDetailModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">

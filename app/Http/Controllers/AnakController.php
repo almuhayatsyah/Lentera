@@ -8,6 +8,7 @@ use App\Models\Posyandu;
 use Illuminate\Http\Request;
 use App\Services\ActivityLogger;
 
+
 class AnakController extends Controller
 {
     /**
@@ -17,7 +18,7 @@ class AnakController extends Controller
     {
         $query = Anak::with(['ibu', 'posyandu'])
             ->aktif()
-            ->balita();
+            ->balita(); // Only show children under 5 years old
 
         // Filter by posyandu for Kader
         if (auth()->user()->isKader()) {
@@ -90,6 +91,16 @@ class AnakController extends Controller
             'catatan' => 'nullable|string',
         ]);
 
+        // Additional validation: Check if child is under 5 years old (Balita)
+        $tanggalLahir = \Carbon\Carbon::parse($validated['tanggal_lahir']);
+        $usiaBulan = $tanggalLahir->diffInMonths(now());
+        
+        if ($usiaBulan >= 60) { // 60 months = 5 years
+            return back()
+                ->withErrors(['tanggal_lahir' => 'Anak harus berusia di bawah 5 tahun (Balita). Data yang diinput berusia ' . floor($usiaBulan / 12) . ' tahun ' . ($usiaBulan % 12) . ' bulan.'])
+                ->withInput();
+        }
+
         // Handle foto upload
         if ($request->hasFile('foto')) {
             $validated['foto'] = $request->file('foto')->store('anak-photos', 'public');
@@ -99,6 +110,9 @@ class AnakController extends Controller
         if (auth()->user()->isKader()) {
             $validated['posyandu_id'] = auth()->user()->posyandu_id;
         }
+
+        // Ensure aktif is set to true for new records
+        $validated['aktif'] = true;
 
         Anak::create($validated);
 
@@ -176,6 +190,16 @@ class AnakController extends Controller
             'catatan' => 'nullable|string',
             'aktif' => 'boolean',
         ]);
+
+        // Additional validation: Check if child is under 5 years old (Balita)
+        $tanggalLahir = \Carbon\Carbon::parse($validated['tanggal_lahir']);
+        $usiaBulan = $tanggalLahir->diffInMonths(now());
+        
+        if ($usiaBulan >= 60) { // 60 months = 5 years
+            return back()
+                ->withErrors(['tanggal_lahir' => 'Anak harus berusia di bawah 5 tahun (Balita). Data yang diinput berusia ' . floor($usiaBulan / 12) . ' tahun ' . ($usiaBulan % 12) . ' bulan.'])
+                ->withInput();
+        }
 
         // Handle foto upload
         if ($request->hasFile('foto')) {

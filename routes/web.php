@@ -60,10 +60,25 @@ Route::middleware('auth')->group(function () {
     Route::post('/kunjungan/store', [KunjunganController::class, 'store'])->name('kunjungan.store');
     Route::get('/kunjungan/history', [KunjunganController::class, 'history'])->name('kunjungan.history');
     Route::get('/kunjungan/{kunjungan}', [KunjunganController::class, 'show'])->name('kunjungan.show');
+    Route::delete('/kunjungan/{kunjungan}', [KunjunganController::class, 'destroy'])->name('kunjungan.destroy');
 
     // API for live calculation (AJAX)
     Route::post('/api/calculate-status', [KunjunganController::class, 'calculateStatus'])->name('api.calculate-status');
     Route::get('/api/search-anak', [AnakController::class, 'search'])->name('api.search-anak');
+
+    // Settings Management (Unified)
+    Route::middleware(['auth', 'can:admin'])->group(function () {
+        Route::get('settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('settings.index');
+        // Users management already under UserController, link via settings view
+        Route::get('settings/users', [App\Http\Controllers\UserController::class, 'index'])->name('settings.users');
+        // Activity log view
+        Route::get('settings/activity-log', [App\Http\Controllers\ActivityLogController::class, 'index'])->name('settings.activity');
+        Route::post('settings/activity/prune', [App\Http\Controllers\SettingsController::class, 'pruneActivityLog'])->name('settings.activity.prune');
+        // Backup & Reset
+        Route::get('settings/backup', [App\Http\Controllers\BackupController::class, 'index'])->name('settings.backup');
+        Route::post('settings/backup/perform', [App\Http\Controllers\BackupController::class, 'backup'])->name('settings.backup.perform');
+        Route::post('settings/reset', [App\Http\Controllers\BackupController::class, 'reset'])->name('settings.reset');
+    });
 
     // Export Routes
     Route::get('/export/anak', [App\Http\Controllers\ExportController::class, 'anak'])->name('export.anak');
@@ -80,7 +95,9 @@ Route::middleware('auth')->group(function () {
 
         // Laporan / Reports
         Route::get('/laporan/skdn', [LaporanController::class, 'skdn'])->name('laporan.skdn');
+        Route::get('/laporan/skdn/pdf', [LaporanController::class, 'exportSkdnPdf'])->name('laporan.skdn.pdf');
         Route::get('/laporan/sebaran', [LaporanController::class, 'sebaran'])->name('laporan.sebaran');
+        Route::get('/laporan/sebaran/pdf', [LaporanController::class, 'exportSebaranPdf'])->name('laporan.sebaran.pdf');
         Route::get('/laporan/export-skdn', [LaporanController::class, 'exportSkdn'])->name('laporan.export-skdn');
 
         // Activity Logs

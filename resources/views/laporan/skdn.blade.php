@@ -8,9 +8,14 @@
                     <i class="bx bx-bar-chart-alt-2 me-2"></i>
                     Laporan SKDN
                 </h5>
-                <a href="{{ route('laporan.export-skdn', ['bulan' => $bulan, 'tahun' => $tahun]) }}" class="btn btn-success">
-                    <i class="bx bx-download"></i> Export Excel
-                </a>
+                <div class="btn-group">
+                    <a href="{{ route('laporan.skdn.pdf', ['bulan' => $bulan, 'tahun' => $tahun]) }}" class="btn btn-danger">
+                        <i class="bx bxs-file-pdf"></i> PDF
+                    </a>
+                    <a href="{{ route('laporan.export-skdn', ['bulan' => $bulan, 'tahun' => $tahun]) }}" class="btn btn-success">
+                        <i class="bx bxs-file"></i> Excel
+                    </a>
+                </div>
             </div>
         </div>
         <div class="card-body">

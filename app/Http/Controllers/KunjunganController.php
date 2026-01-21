@@ -330,4 +330,28 @@ class KunjunganController extends Controller
             abort(403, 'Anda tidak memiliki akses ke data ini.');
         }
     }
+
+    /**
+     * Remove the specified kunjungan from storage.
+     */
+    public function destroy(Kunjungan $kunjungan)
+    {
+        // Authorization check
+        $this->authorizeAccessKunjungan($kunjungan);
+
+        $anakNama = $kunjungan->anak->nama;
+        $tanggal = $kunjungan->tanggal_kunjungan->format('d/m/Y');
+
+        // Delete related pengukuran and pelayanan (cascade)
+        $kunjungan->pengukuran()->delete();
+        $kunjungan->pelayanan()->delete();
+        
+        // Delete kunjungan
+        $kunjungan->delete();
+
+        ActivityLogger::log('Hapus Kunjungan', "Menghapus data kunjungan anak {$anakNama} tanggal {$tanggal}");
+
+        return redirect()->route('kunjungan.index')
+            ->with('success', 'Data kunjungan berhasil dihapus.');
+    }
 }

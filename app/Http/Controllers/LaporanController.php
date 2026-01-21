@@ -8,6 +8,7 @@ use App\Models\Pengukuran;
 use App\Models\Posyandu;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class LaporanController extends Controller
 {
@@ -133,6 +134,74 @@ class LaporanController extends Controller
     }
 
     /**
+     * Export SKDN to PDF
+     */
+    public function exportSkdnPdf(Request $request)
+    {
+        $bulan = $request->get('bulan', now()->month);
+        $tahun = $request->get('tahun', now()->year);
+
+        $posyandus = Posyandu::with(['anaks' => function ($q) {
+            $q->aktif()->balita();
+        }])->get();
+
+        $data = [];
+
+        foreach ($posyandus as $posyandu) {
+            $sasaran = $posyandu->anaks->count();
+            $terdaftar = $sasaran;
+
+            $ditimbang = Kunjungan::where('posyandu_id', $posyandu->id)
+                ->whereMonth('tanggal_kunjungan', $bulan)
+                ->whereYear('tanggal_kunjungan', $tahun)
+                ->distinct('anak_id')
+                ->count('anak_id');
+
+            $naikBb = Pengukuran::whereHas('kunjungan', function ($q) use ($posyandu, $bulan, $tahun) {
+                $q->where('posyandu_id', $posyandu->id)
+                  ->whereMonth('tanggal_kunjungan', $bulan)
+                  ->whereYear('tanggal_kunjungan', $tahun);
+            })->where('naik_berat_badan', true)->count();
+
+            $statusCounts = $this->getStatusCounts($posyandu->id, $bulan, $tahun);
+
+            $data[] = [
+                'posyandu' => $posyandu,
+                's' => $sasaran,
+                'k' => $terdaftar,
+                'd' => $ditimbang,
+                'n' => $naikBb,
+                'd_per_s' => $sasaran > 0 ? round(($ditimbang / $sasaran) * 100, 1) : 0,
+                'n_per_d' => $ditimbang > 0 ? round(($naikBb / $ditimbang) * 100, 1) : 0,
+                'status' => $statusCounts,
+            ];
+        }
+
+        $total = [
+            's' => collect($data)->sum('s'),
+            'k' => collect($data)->sum('k'),
+            'd' => collect($data)->sum('d'),
+            'n' => collect($data)->sum('n'),
+        ];
+        $total['d_per_s'] = $total['s'] > 0 ? round(($total['d'] / $total['s']) * 100, 1) : 0;
+        $total['n_per_d'] = $total['d'] > 0 ? round(($total['n'] / $total['d']) * 100, 1) : 0;
+
+        $namaBulan = [
+            1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+            5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+            9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+        ];
+
+        $periode = $namaBulan[$bulan] . ' ' . $tahun;
+        $filename = 'Laporan_SKDN_' . $namaBulan[$bulan] . '_' . $tahun . '.pdf';
+
+        $pdf = Pdf::loadView('laporan.pdf.skdn-pdf', compact('data', 'total', 'periode'))
+            ->setPaper('a4', 'landscape');
+
+        return $pdf->download($filename);
+    }
+
+    /**
      * Export SKDN to Excel
      */
     public function exportSkdn(Request $request)
@@ -152,6 +221,68 @@ class LaporanController extends Controller
             new \App\Exports\SkdnExport($bulan, $tahun), 
             $filename
         );
+    }
+
+    /**
+     * Export Peta Sebaran to PDF
+     */
+    public function exportSebaranPdf(Request $request)
+    {
+        $bulan = $request->get('bulan', now()->month);
+        $tahun = $request->get('tahun', now()->year);
+
+        $posyandus = Posyandu::all()->map(function ($posyandu) use ($bulan, $tahun) {
+            $statusCounts = $this->getStatusCounts($posyandu->id, $bulan, $tahun);
+            
+            $stuntingRate = $statusCounts['total'] > 0 
+                ? (($statusCounts['stunting']['pendek'] + $statusCounts['stunting']['sangat_pendek']) / $statusCounts['total']) * 100 
+                : 0;
+
+            $statusColor = 'success';
+            if ($stuntingRate > 20) {
+                $statusColor = 'danger';
+            } elseif ($stuntingRate > 10) {
+                $statusColor = 'warning';
+            }
+
+            return [
+                'id' => $posyandu->id,
+                'nama' => $posyandu->nama,
+                'desa' => $posyandu->desa,
+                'kecamatan' => $posyandu->kecamatan,
+                'total_anak' => Anak::where('posyandu_id', $posyandu->id)->aktif()->balita()->count(),
+                'kunjungan_bulan_ini' => Kunjungan::where('posyandu_id', $posyandu->id)
+                    ->whereMonth('tanggal_kunjungan', $bulan)
+                    ->whereYear('tanggal_kunjungan', $tahun)
+                    ->count(),
+                'status' => $statusCounts,
+                'stunting_rate' => round($stuntingRate, 1),
+                'status_color' => $statusColor,
+            ];
+        });
+
+        $summary = [
+            'total_posyandu' => $posyandus->count(),
+            'total_anak' => $posyandus->sum('total_anak'),
+            'total_kunjungan' => $posyandus->sum('kunjungan_bulan_ini'),
+            'posyandu_merah' => $posyandus->where('status_color', 'danger')->count(),
+            'posyandu_kuning' => $posyandus->where('status_color', 'warning')->count(),
+            'posyandu_hijau' => $posyandus->where('status_color', 'success')->count(),
+        ];
+
+        $namaBulan = [
+            1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+            5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+            9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+        ];
+
+        $periode = $namaBulan[$bulan] . ' ' . $tahun;
+        $filename = 'Peta_Sebaran_' . $namaBulan[$bulan] . '_' . $tahun . '.pdf';
+
+        $pdf = Pdf::loadView('laporan.pdf.sebaran-pdf', compact('posyandus', 'summary', 'periode'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->download($filename);
     }
 
     /**

@@ -26,7 +26,7 @@ class ActivityLogController extends Controller
             $query->whereDate('created_at', $request->date);
         }
 
-        $logs = $query->latest()->paginate(20)->withQueryString();
+        $logs = $query->latest()->paginate(10)->withQueryString();
 
         return view('activity_logs.index', compact('logs'));
     }
