@@ -480,7 +480,7 @@
     <!-- CTA Section -->
     <section class="py-5" style="background: var(--light);">
         <div class="container text-center py-4">
-            <h3 class="mb-3" style="font-weight: 700; color: var(--dark);">Siap Menggunakan LENTERA POSYANDU RINDAM IM?</h3>
+            <h3 class="mb-3" style="font-weight: 700; color: var(--dark);">Siap Menggunakan LENTERA POSYANDU RINDAM ISKANDAR MUDA?</h3>
             <p class="text-muted mb-4">Hubungi kami untuk mendapatkan akses atau login jika sudah memiliki akun.</p>
             <a href="{{ route('login') }}" class="btn-cta">
                 <i class="bx bx-log-in"></i> Login Sekarang
