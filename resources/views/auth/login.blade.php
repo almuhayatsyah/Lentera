@@ -170,7 +170,7 @@
     <div class="login-card">
         <div class="login-header">
             <img src="{{ asset('assets/img/favicon/logo.png') }}" alt="LENTERA" class="login-logo">
-            <h1 class="login-title">LENTERA</h1>
+            <h1 class="login-title">LENTERA<br><small style="font-size: 0.5em; font-weight: 500; display: block; margin-top: 5px;">POSYANDU RINDAM IM</small></h1>
             <p class="login-subtitle">Layanan Elektronik Nutrisi Tumbuh Kembang Entri Rutin Anak</p>
         </div>
 

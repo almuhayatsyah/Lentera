@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="LENTERA - Layanan Elektronik Nutrisi Tumbuh Kembang Entri Rutin Anak. Sistem Informasi Posyandu untuk pemantauan tumbuh kembang balita.">
-    <title>LENTERA - Layanan Elektronik Nutrisi Tumbuh Kembang Entri Rutin Anak</title>
+    <title>LENTERA POSYANDU RINDAM IM - Layanan Elektronik Nutrisi Tumbuh Kembang Entri Rutin Anak</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" />
@@ -327,7 +327,7 @@
             <a class="navbar-brand d-flex align-items-center" href="/">
                 <img src="{{ asset('assets/img/favicon/logo.png') }}" alt="LENTERA" 
                      style="height: 45px; margin-right: 10px;">
-                <span>LENTERA</span>
+                <span>LENTERA<br><small style="font-size: 0.7rem; display: block; margin-top: -5px;">POSYANDU RINDAM IM</small></span>
             </a>
             
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -357,10 +357,15 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 order-lg-1 order-2">
-                    <h1 class="hero-title d-flex align-items-center gap-3 flex-wrap">
-                        <img src="{{ asset('assets/img/favicon/logo.png') }}" alt="LENTERA" style="height: 65px;">
-                        <span>LENTERA</span>
-                    </h1>
+                    <div class="mb-4">
+                        <img src="{{ asset('assets/img/favicon/logo.png') }}" alt="LENTERA" style="height: 80px; margin-bottom: 1.5rem;">
+                        <h1 class="hero-title mb-0" style="line-height: 1.1;">
+                            LENTERA
+                            <div style="font-size: 1.2rem; font-weight: 600; color: var(--primary); margin-top: 0.5rem;">
+                                POSYANDU RINDAM IM
+                            </div>
+                        </h1>
+                    </div>
                     <p class="hero-acronym mb-3" style="font-size: 1.1rem; color: var(--primary); font-weight: 600;">
                         <strong>L</strong>ayanan <strong>E</strong>lektronik <strong>N</strong>utrisi <strong>T</strong>umbuh K<strong>e</strong>mbang Ent<strong>r</strong>i Rutin <strong>A</strong>nak
                     </p>
@@ -475,7 +480,7 @@
     <!-- CTA Section -->
     <section class="py-5" style="background: var(--light);">
         <div class="container text-center py-4">
-            <h3 class="mb-3" style="font-weight: 700; color: var(--dark);">Siap Menggunakan LENTERA?</h3>
+            <h3 class="mb-3" style="font-weight: 700; color: var(--dark);">Siap Menggunakan LENTERA POSYANDU RINDAM IM?</h3>
             <p class="text-muted mb-4">Hubungi kami untuk mendapatkan akses atau login jika sudah memiliki akun.</p>
             <a href="{{ route('login') }}" class="btn-cta">
                 <i class="bx bx-log-in"></i> Login Sekarang
@@ -484,38 +489,43 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" style="background: linear-gradient(135deg, #1e5799 0%, #2c3e50 100%); color: white; padding: 3rem 0;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <div class="footer-brand d-flex align-items-center gap-2">
-                        <img src="{{ asset('assets/img/favicon/logo.png') }}" alt="LENTERA" style="height: 40px; filter: brightness(0) invert(1);">
-                        <span>LENTERA</span>
+                    <div class="mb-3">
+                        <img src="{{ asset('assets/img/favicon/logo.png') }}" alt="LENTERA" style="height: 60px; margin-bottom: 1rem;">
+                        <div class="footer-brand" style="font-size: 1.8rem; font-weight: 700; color: white; margin-bottom: 0.5rem;">
+                            LENTERA
+                            <div style="font-size: 1rem; font-weight: 600; color: #28c76f; margin-top: 0.3rem;">
+                                POSYANDU RINDAM IM
+                            </div>
+                        </div>
                     </div>
-                    <p class="mt-2 mb-1"><strong>L</strong>ayanan <strong>E</strong>lektronik <strong>N</strong>utrisi <strong>T</strong>umbuh K<strong>e</strong>mbang Ent<strong>r</strong>i Rutin <strong>A</strong>nak</p>
-                    <p>Sistem Informasi Posyandu untuk pemantauan tumbuh kembang balita dan pencegahan stunting.</p>
+                    <p class="mt-2 mb-1" style="color: rgba(255,255,255,0.9);"><strong>L</strong>ayanan <strong>E</strong>lektronik <strong>N</strong>utrisi <strong>T</strong>umbuh K<strong>e</strong>mbang Ent<strong>r</strong>i Rutin <strong>A</strong>nak</p>
+                    <p style="color: rgba(255,255,255,0.8);">Sistem Informasi Posyandu untuk pemantauan tumbuh kembang balita dan pencegahan stunting.</p>
                 </div>
                 <div class="col-lg-3 col-6">
-                    <h6 class="text-white mb-3">Navigasi</h6>
+                    <h6 class="text-white mb-3" style="color: #28c76f !important; font-weight: 600;">Navigasi</h6>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#fitur">Fitur</a></li>
-                        <li class="mb-2"><a href="#tentang">Tentang</a></li>
-                        <li class="mb-2"><a href="{{ route('login') }}">Login</a></li>
+                        <li class="mb-2"><a href="#fitur" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.3s;">Fitur</a></li>
+                        <li class="mb-2"><a href="#tentang" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.3s;">Tentang</a></li>
+                        <li class="mb-2"><a href="{{ route('login') }}" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.3s;">Login</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-6">
-                    <h6 class="text-white mb-3">Kontak</h6>
+                    <h6 class="text-white mb-3" style="color: #28c76f !important; font-weight: 600;">Kontak</h6>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><i class="bx bx-envelope"></i> info@puskesmas.go.id</li>
-                        <li class="mb-2"><i class="bx bx-phone"></i> (021) 123-4567</li>
+                        <li class="mb-2" style="color: rgba(255,255,255,0.8);"><i class="bx bx-envelope"></i> <a href="mailto:naomi_puze@yahoo.com" style="color: rgba(255,255,255,0.8); text-decoration: none;">naomi_puze@yahoo.com</a></li>
+                        <li class="mb-2" style="color: rgba(255,255,255,0.8);"><i class="bx bx-phone"></i><a href="tel:+6281265977994" style="color: rgba(255,255,255,0.8); text-decoration: none;">+6281265977994</a></li>
                     </ul>
                 </div>
             </div>
-            <hr class="my-4" style="border-color: #374151;">
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
             <div class="text-center">
-                <small>&copy; {{ date('Y') }} LENTERA. Dibuat dengan <i class="bx bx-heart text-danger"></i> untuk Indonesia Sehat.</small>
+                <small style="color: rgba(255,255,255,0.9);">&copy; {{ date('Y') }} LENTERA POSYANDU RINDAM IM. Dibuat dengan <i class="bx bx-heart text-danger"></i> untuk Indonesia Sehat.</small>
                 <br>
-               <small>Developed by <a href="https://almuhayatsyah.my.id">Almuhayatsyah</a></small>
+               <small style="color: rgba(255,255,255,0.7);">Developed by <a href="https://almuhayatsyah.my.id" style="color: #28c76f; text-decoration: none;">Almuhayatsyah</a></small>
             </div>
         </div>
     </footer>

@@ -1,6 +1,6 @@
 {
-    "name": "LENTERA - Pemantauan Tumbuh Kembang Anak",
-    "short_name": "LENTERA",
+    "name": "LENTERA POSYANDU RINDAM IM - Pemantauan Tumbuh Kembang Anak",
+    "short_name": "LENTERA RINDAM IM",
     "description": "Aplikasi pemantauan tumbuh kembang anak digital untuk Posyandu",
     "start_url": "/dashboard",
     "display": "standalone",
@@ -31,14 +31,24 @@
             "short_name": "Entri",
             "description": "Buka form entri kunjungan baru",
             "url": "/kunjungan/wizard",
-            "icons": [{ "src": "/assets/img/favicon/android-chrome-192x192.png", "sizes": "192x192" }]
+            "icons": [
+                {
+                    "src": "/assets/img/favicon/android-chrome-192x192.png",
+                    "sizes": "192x192"
+                }
+            ]
         },
         {
             "name": "Data Anak",
             "short_name": "Anak",
             "description": "Lihat daftar data anak",
             "url": "/anak",
-            "icons": [{ "src": "/assets/img/favicon/android-chrome-192x192.png", "sizes": "192x192" }]
+            "icons": [
+                {
+                    "src": "/assets/img/favicon/android-chrome-192x192.png",
+                    "sizes": "192x192"
+                }
+            ]
         }
     ]
 }

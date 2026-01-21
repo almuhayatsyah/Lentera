@@ -378,7 +378,7 @@
                         <span class="app-brand-logo demo me-2">
                             <img src="{{ asset('assets/img/favicon/logo.png') }}" alt="LENTERA" style="height: 32px; width: auto;">
                         </span>
-                        <span class="app-brand-text demo text-white fw-bold" style="text-transform: none !important;">LENTERA</span>
+                        <span class="app-brand-text demo text-white fw-bold" style="text-transform: none !important;">LENTERA<br><small style="font-size: 0.65rem; opacity: 0.9;">POSYANDU RINDAM IM</small></span>
                     </a>
                     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
                         <i class="bx bx-chevron-left bx-sm align-middle text-white"></i>
@@ -497,7 +497,7 @@
                     <div class="d-flex align-items-center d-xl-none me-auto">
                         <a href="{{ route('dashboard') }}" class="d-flex align-items-center text-decoration-none">
                             <img src="{{ asset('assets/img/favicon/logo.png') }}" alt="LENTERA" height="32" class="me-2">
-                            <span class="fw-bold text-primary d-inline" style="font-size: 1.1rem; text-transform: none !important;">LENTERA</span>
+                            <span class="fw-bold text-primary d-inline" style="font-size: 1.1rem; text-transform: none !important;">LENTERA<br><small class="d-block" style="font-size: 0.65rem; line-height: 1; margin-top: -2px;">POSYANDU RINDAM IM</small></span>
                         </a>
                     </div>
 
@@ -725,7 +725,7 @@
                     <footer class="content-footer footer bg-footer-theme">
                         <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
                             <div class="mb-2 mb-md-0">
-                                © {{ date('Y') }} <strong>LENTERA</strong> - Sistem Pemantauan Tumbuh Kembang Anak
+                                © {{ date('Y') }} <strong>LENTERA POSYANDU RINDAM IM</strong> - Sistem Pemantauan Tumbuh Kembang Anak
                             </div>
                             <div>
                                 <span class="text-muted">v1.0.0</span>
