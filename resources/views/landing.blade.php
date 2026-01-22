@@ -374,7 +374,7 @@
                         dalam mencatat, memantau, dan menganalisis pertumbuhan anak secara real-time. 
                         Cegah stunting sejak dini dengan data yang akurat!
                     </p>
-                    <div class="d-flex flex-wrap gap-3">
+                    <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-lg-start">
                         <a href="{{ route('login') }}" class="btn-cta">
                             <i class="bx bx-log-in"></i> Mulai Sekarang
                         </a>
@@ -480,7 +480,7 @@
     <!-- CTA Section -->
     <section class="py-5" style="background: var(--light);">
         <div class="container text-center py-4">
-            <h3 class="mb-3" style="font-weight: 700; color: var(--dark);">Siap Menggunakan LENTERA POSYANDU RINDAM ISKANDAR MUDA?</h3>
+            <h3 class="mb-3" style="font-weight: 700; color: var(--dark);">Siap Menggunakan Aplikasi Posyandu Lentera Rindam IM?</h3>
             <p class="text-muted mb-4">Hubungi kami untuk mendapatkan akses atau login jika sudah memiliki akun.</p>
             <a href="{{ route('login') }}" class="btn-cta">
                 <i class="bx bx-log-in"></i> Login Sekarang
@@ -523,7 +523,9 @@
             </div>
             <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
             <div class="text-center">
-                <small style="color: rgba(255,255,255,0.9);">&copy; {{ date('Y') }} LENTERA POSYANDU RINDAM IM. Dibuat dengan <i class="bx bx-heart text-danger"></i> untuk Indonesia Sehat.</small>
+                <small style="color: rgba(255,255,255,0.9);">&copy; {{ date('Y') }} LENTERA POSYANDU RINDAM IM
+                    <br>
+                    Dibuat dengan <i class="bx bx-heart text-danger"></i> untuk Indonesia Sehat.</small>
                 <br>
                <small style="color: rgba(255,255,255,0.7);">Developed by <a href="https://almuhayatsyah.my.id" style="color: #28c76f; text-decoration: none;">Almuhayatsyah</a></small>
             </div>
