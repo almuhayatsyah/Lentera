@@ -515,9 +515,9 @@
                 </div>
                 <div class="col-lg-3 col-6">
                     <h6 class="text-white mb-3" style="color: #28c76f !important; font-weight: 600;">Kontak</h6>
-                    <ul class="list-unstyled">
-                        <li class="mb-2" style="color: rgba(255,255,255,0.8);"><i class="bx bx-envelope"></i> <a href="mailto:naomi_puze@yahoo.com" style="color: rgba(255,255,255,0.8); text-decoration: none;">naomi_puze@yahoo.com</a></li>
-                        <li class="mb-2" style="color: rgba(255,255,255,0.8);"><i class="bx bx-phone"></i><a href="tel:+6281265977994" style="color: rgba(255,255,255,0.8); text-decoration: none;">+6281265977994</a></li>
+                    <ul class="list-unstyled" style="font-size: 0.85rem;">
+                        <li class="mb-2" style="color: rgba(255,255,255,0.8); word-break: break-all;"><i class="bx bx-envelope"></i> <a href="mailto:naomi_puze@yahoo.com" style="color: rgba(255,255,255,0.8); text-decoration: none;">naomi_puze@yahoo.com</a></li>
+                        <li class="mb-2" style="color: rgba(255,255,255,0.8);"><i class="bx bx-phone"></i> <a href="tel:+6281265977994" style="color: rgba(255,255,255,0.8); text-decoration: none;">+6281265977994</a></li>
                     </ul>
                 </div>
             </div>
