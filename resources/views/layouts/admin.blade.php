@@ -822,5 +822,16 @@
     </nav>
 
     @stack('scripts')
+    
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('LENTERA: Service Worker registered', reg))
+                    .catch(err => console.error('LENTERA: Service Worker failed', err));
+            });
+        }
+    </script>
 </body>
 </html>
