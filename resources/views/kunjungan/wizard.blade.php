@@ -282,7 +282,7 @@
                                             <select name="jenis_pmt" x-model="formData.jenis_pmt" class="form-select form-select-sm">
                                                 <option value="">Jenis PMT</option>
                                                 <option value="biskuit">Biskuit MT</option>
-                                                <option value="susu">Susu Formula</option>
+                                                <option value="susu">Sop Ayam</option>
                                                 <option value="makanan_lokal">Makanan Lokal</option>
                                                 <option value="bubur">Bubur Kacang Hijau</option>
                                                 <option value="telur">Telur</option>

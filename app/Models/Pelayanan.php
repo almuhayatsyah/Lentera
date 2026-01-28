@@ -62,7 +62,7 @@ class Pelayanan extends Model
     // PMT Types
     public const JENIS_PMT = [
         'biskuit' => 'Biskuit MT',
-        'susu' => 'Susu Formula',
+        'susu' => 'Sop Ayam',
         'makanan_lokal' => 'Makanan Lokal',
         'bubur' => 'Bubur Kacang Hijau',
         'telur' => 'Telur',

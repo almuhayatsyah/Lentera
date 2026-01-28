@@ -18,7 +18,7 @@ class AnakController extends Controller
     {
         $query = Anak::with(['ibu', 'posyandu'])
             ->aktif()
-            ->balita(); // Only show children under 5 years old
+            ->balita(); // Only show children under 5 years oldf
 
         // Filter by posyandu for Kader
         if (auth()->user()->isKader()) {
